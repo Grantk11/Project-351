@@ -112,6 +112,13 @@ CREATE TABLE Applications (
     FOREIGN KEY (PostingID) REFERENCES Internship_Opportunities(PostingID)
 );
 
+Create TABLE User(
+UserEmail VARCHAR(20),
+Postion VARCHAR(20),
+Password INT,
+
+);
+
 
 
 #just in case i need to drop tables
