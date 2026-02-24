@@ -119,6 +119,16 @@ Password INT,
 
 );
 
+CREATE TABLE users (
+    email VARCHAR(255) NOT NULL,
+    Position VARCHAR(20) NULL,
+    password VARCHAR(255) NULL,
+    verify_token VARCHAR(64) NULL,
+    is_verified TINYINT(1) DEFAULT 0,
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (id)
+);
+
 
 
 #just in case i need to drop tables
