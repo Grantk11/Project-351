@@ -27,8 +27,8 @@ if (isset($_SESSION["user_id"])) {
 
         <nav>
             <ul>
-                <a href="login.php">Log In</a><br>
-				<a href="register.php">Register</a>
+                <li><a href="login.php">Log In</a></li>
+				<li><a href="register.php">Register</a></li>
              
             </ul>
         </nav>

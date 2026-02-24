@@ -5,6 +5,10 @@ if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit;
 }
+
+echo "<marquee>Welcome, " . 
+     htmlspecialchars($_SESSION["first_name"]) . 
+     "</marquee>";
 ?>
 
 <!DOCTYPE html>
@@ -40,13 +44,25 @@ if (!isset($_SESSION["user_id"])) {
 
 <header>
     <h2 style="display:inline;">351 Information System</h2>
-    <a class="logout" href="logout.php">Logout</a>
+	<a class="logout" href="my_profile.php">My Profile</a><br>
+    <a class="logout" href="logout.php">Logout</a><br>
 </header>
 
 <div class="container">
     <h1>Dashboard</h1>
-    <p>Welcome to your system control panel.</p>
+    <p>Welcome to your CNU Dashboard, interact with the image below to enter a subsystem.</p>
+	
+<div class="dash-logo">
+<img src="sails_map.jpg" usemap="#image-map">
 
+<map name="image-map">
+    <area target="" alt="Advising" title="Advising" href="subsystems/Advising/advising_index.php" coords="165,449,211,531,404,267,333,230" shape="poly">
+    <area target="" alt="Alumni" title="Alumni" href="subsystems/alumni/alumni_index.php" coords="366,445,416,515,566,298,497,253,429,352,406,392" shape="poly">
+    <area target="" alt="Travel" title="Travel" href="subsystems/travel/travel_index.php" coords="482,540,709,199,758,228,739,320,771,351,684,516,616,529,541,576" shape="poly">
+</map>
+</div>
+
+<p>Alternatively, click these links</p>
     <div class="cards">
 
         <div class="card">
@@ -70,6 +86,6 @@ if (!isset($_SESSION["user_id"])) {
     </div>
 </div>
 
-		<img src="cnu_sails.png" alt="CNU Sails">
+	
 </body>
 </html>

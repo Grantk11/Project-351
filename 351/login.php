@@ -10,8 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST["password"] ?? "";
 
     $stmt = $pdo->prepare(
-        "SELECT id, email, password, is_verified FROM users WHERE email = ?"
-    );
+    "SELECT id, email, password, is_verified, first_name, last_name 
+     FROM users 
+     WHERE email = ?"
+	);
+    
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -24,6 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         session_regenerate_id(true);
         $_SESSION["user_id"] = $user["id"];
+		$_SESSION["email"] = $user["email"];
+		$_SESSION["first_name"] = $user["first_name"];
+		$_SESSION["last_name"] = $user["last_name"];
 
         // ✅ Success message + redirect
         echo "<!DOCTYPE html>
@@ -70,8 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <?php endif; ?>
 
 <form method="POST">
-    <input type="email" name="email" required>
-    <input type="password" name="password" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="password" placeholder="Password" required>
     <button type="submit">Login</button>
 </form>
 
