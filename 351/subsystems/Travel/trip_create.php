@@ -1,22 +1,22 @@
+
+
 <?php
 session_start();
-
+require "dbconnect.php"
 $error = "";
 
-if (!isset($_SESSION["trips"])) {
-    $_SESSION["trips"] = [];
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION["Trip"] = [];
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $employeeID  = trim($_POST["EmploID"] ?? "");
+    $employeeID  = trim($_POST["EmployeeID"] ?? "");
     $destination = trim($_POST["EmployeeDestination"] ?? "");
     $arrivalDate = $_POST["Arrival_Date"] ?? "";
     $returnDate  = $_POST["Return_Date"] ?? "";
 
-    if (!ctype_digit($employeeID) || strlen($employeeID) !== 8) {
-        $error = "Not a valid ID (must be exactly 8 digits).";
-    }
+  
 
     if (!$error && !empty($arrivalDate)) {
         $year = (int)date("Y", strtotime($arrivalDate));
@@ -60,15 +60,7 @@ foreach ($_SESSION["trips"] as $t) {
 <!doctype html>
 <html lang="en">
 
-<?php
-session_start();
 
-if (!isset($_SESSION["user_id"])) {
-    header("Location: login.php");
-    exit;
-}
-
-?>
 
 <html lang="en">
 <head>
@@ -83,7 +75,7 @@ if (!isset($_SESSION["user_id"])) {
             <h1><a href="../../dashboard.php">351 System Portal</a></h1>
         </header>
 
-        <div class="site-logo">Logo Here?</div>
+
 
 
 
