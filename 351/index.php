@@ -17,7 +17,7 @@ if (isset($_SESSION["user_id"])) {
 <body>
     <div id="wrapper">
         <header>
-            <h1><a href="index.php">Home Page</a></h1>
+            <h1><a href="index.php">CNU Home</a></h1>
         </header>
 
         <div class="site-logo">
@@ -34,10 +34,9 @@ if (isset($_SESSION["user_id"])) {
         </nav>
 
         <main>
-            <h2>Welcome to our website</h2>
-            <p>This is our project</p>
+            <h2>Welcome to our website</h2><br>
+            <p><b>You must log in to access the following subsystems</b></p>
             
-                <b>Subsystems include...</b>
 				<ul>
                 <li>Alumni Connection System</li>
                 <li>Course Advising System</li>

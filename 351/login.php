@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST["password"] ?? "";
 
     $stmt = $pdo->prepare(
-    "SELECT id, email, password, is_verified, first_name, last_name 
+    "SELECT id, email, password, first_name, last_name 
      FROM users 
      WHERE email = ?"
 	);
@@ -21,8 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($user && password_verify($password, $user["password"])) {
 
-        if ((int)$user["is_verified"] !== 1) {
-            die("Please verify your email first.");
         }
 
         session_regenerate_id(true);
@@ -45,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </body>
         </html>";
         exit;
-    }
 
     // ❗ If we reach here, login failed
     $error = "Invalid email or password";

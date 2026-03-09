@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<link rel="stylesheet" href="351.css">
 <head>
     <title>My Profile</title>
 </head>

@@ -51,19 +51,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $token = bin2hex(random_bytes(32));
 
         $stmt = $pdo->prepare(
-            "INSERT INTO users (email, password, first_name, last_name, verify_token)
-             VALUES (?, ?, ?, ?, ?)"
+            "INSERT INTO users (email, password, first_name, last_name)
+             VALUES (?, ?, ?, ?)"
         );
 
         $stmt->execute([$email, $passwordHash, $firstName, $lastName, $token]);
 
-        $verifyLink = "http://localhost/351/verify.php?token=$token";
 
-        mail(
-            $email,
-            "Verify your account",
-            "Click this link to verify your account:\n$verifyLink"
-        );
 
         header("Location: login.php");
         exit();
