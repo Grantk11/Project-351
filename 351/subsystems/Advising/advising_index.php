@@ -9,23 +9,31 @@ if (!isset($_SESSION["user_id"])) {
 
 ?>
 
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>351</title>
-    <link rel="stylesheet" href="../../351.css">
+<title>Advising Subsystem</title>
+<link rel="stylesheet" href="../../351.css">
 </head>
+
 <body>
-    <div id="wrapper">
-        <header>
-            <h1><a href="../../dashboard.php">351 System Portal</a></h1>
-        </header>
 
-        <div class="site-logo">Logo Here?</div>
+<h1>Advising Subsystem</h1>
 
+<div class="cards">
 
+<div class="card">
+<h3>Student Notes</h3>
+<p>View and manage advising notes</p>
+<a href="student_notes.php?student_id=1">Open Module</a>
+</div>
 
+<div class="card">
+<h3>Advising Meetings</h3>
+<p>Schedule advising appointments</p>
+<a href="meetings.php">Open Module</a>
+</div>
 
+</div>
 
+</body>
 </html>
