@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
              VALUES (?, ?, ?, ?)"
         );
 
-        $stmt->execute([$email, $passwordHash, $firstName, $lastName, $token]);
+        $stmt->execute([$email, $passwordHash, $firstName, $lastName]);
 
 
 
