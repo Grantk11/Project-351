@@ -21,20 +21,23 @@ if (!isset($_SESSION["user_id"])) {
     <link rel="stylesheet" href="../../351.css">
 </head>
 <body>
-    <div id="wrapper">
-        <header>
-            <h1><a href="../../dashboard.php">351 System Portal</a></h1>
-        </header>
 
-        <div class="site-logo">Logo Here?</div>
+<div id="wrapper">
 
+<header>
+<h1><a href="Trip_Home.php">Travel Dashboard</a></h1>
+</header>
 
+<div class="site-logo">
+<img src="../../ban.png" alt="CNU Banner">
+</div>
 
-
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home | Trip Management Portal</title>
+<nav>
+<ul>
+<li><a href="../../dashboard.php">Back to Portal</a></li>
+<li><a href="../../logout.php">Logout</a></li>
+</ul>
+</nav>
 
 <style>
 :root {
@@ -56,14 +59,6 @@ body {
     background:linear-gradient(180deg,#f6f7fb,#ffffff);
 }
 
-nav {
-    background:var(--nav);
-    padding:16px;
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
-    color:white;
-}
 
 .container {
     max-width:900px;
@@ -125,11 +120,9 @@ p {
 
 <body>
 
-<nav>Trip Management Portal</nav>
-
 <div class="container">
 
-<h1>Welcome</h1>
+<h1>Trip Management Portal</h1>
 <p>Select an option below to manage your travel requests and reimbursements.</p>
 
 <div class="grid">
