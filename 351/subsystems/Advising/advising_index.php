@@ -17,22 +17,7 @@ if (!isset($_SESSION["user_id"])) {
 
 <body>
 
-<div id="wrapper">
-
-<header>
-<h1><a href="dashboard.php">Advising Dashboard</a></h1>
-</header>
-
-<div class="site-logo">
-<img src="../../ban.png" alt="CNU Banner">
-</div>
-
-<nav>
-<ul>
-<li><a href="../../dashboard.php">Back to Portal</a></li>
-<li><a href="../../logout.php">Logout</a></li>
-</ul>
-</nav>
+<h1>Advising Subsystem</h1>
 
 <div class="cards">
 
@@ -45,7 +30,7 @@ if (!isset($_SESSION["user_id"])) {
 <div class="card">
 <h3>Advising Meetings</h3>
 <p>Schedule advising appointments</p>
-<a href="meetings.php">Open Module</a>
+<a href="view_meetings.php?student_id=1">Open Module</a>
 </div>
 
 </div>

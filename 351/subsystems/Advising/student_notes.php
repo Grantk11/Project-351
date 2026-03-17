@@ -1,6 +1,6 @@
 <?php
 session_start();
-require("../../includes/dbconnect.php");
+require("../../includes/DB_Connect.php");
 
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
@@ -30,9 +30,7 @@ $notes = $stmt->fetchAll();
 <h1>Student Advising Notes</h1>
 </header>
 
-<a href="add_note.php?student_id=<?= $studentID ?>">
-Add Note
-</a>
+<a href="add_note.php?student_id=<?= $studentID ?>">Add Note</a>
 
 <hr>
 
@@ -40,15 +38,13 @@ Add Note
 <div>
 
 <p><b>Name:</b> <?= $note['StudentName'] ?></p>
-<p><b>Expected Grad:</b>
-<?= $note['StudentExpectedGrad'] ?></p>
+<p><b>Expected Grad:</b> <?= $note['StudentExpectedGrad'] ?></p>
+<p><b>Classes:</b> <?= $note['StudentClasses'] ?></p>
 
-<p><b>Classes:</b>
-<?= $note['StudentClasses'] ?></p>
+<a href="edit_note.php?id=<?= $note['NoteID'] ?>">Edit</a>
 
-<a href="edit_note.php?id=<?= $note['NoteID'] ?>">
-Edit
-</a>
+<a href="delete_note.php?note_id=<?= $note['NoteID'] ?>&student_id=<?= $studentID ?>"
+   onclick="return confirm('Delete this note?')">Delete</a>
 
 <hr>
 
@@ -59,3 +55,11 @@ Edit
 </body>
 
 </html>
+
+<nav>
+  <ul>
+    <li><a href="../../dashboard.php">Dashboard</a></li>
+    <li><a href="../../my_profile.php">My Profile</a></li>
+    <li><a href="../../logout.php">Logout</a></li>
+  </ul>
+</nav>

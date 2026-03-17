@@ -1,9 +1,10 @@
 <?php
 session_start();
-require "dbconnect.php";
+require "DB_Connect.php";
 
 $studentID = $_GET['student_id'];
 ?>
+
 
 <form action="save_note.php" method="POST">
 
@@ -22,3 +23,11 @@ $studentID = $_GET['student_id'];
 <button type="submit">Save Note</button>
 
 </form>
+
+<nav>
+  <ul>
+    <li><a href="../../dashboard.php">Dashboard</a></li>
+    <li><a href="../../my_profile.php">My Profile</a></li>
+    <li><a href="../../logout.php">Logout</a></li>
+  </ul>
+</nav>
