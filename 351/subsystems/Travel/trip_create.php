@@ -1,8 +1,6 @@
-
-
 <?php
 session_start();
-require "DB_Connect.php"
+require "DB_Connect.php";
 $error = "";
 
 if (!isset($_SESSION['user_id'])) {
@@ -32,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (!$error) {
-        $_SESSION["trips"][] = [
+        $_SESSION["Trip"][] = [
             "TripID"      => rand(10000000, 99999999),
             "Destination" => $destination,
             "Arrival"     => $arrivalDate,
@@ -49,7 +47,7 @@ $today = date("Y-m-d");
 $upcoming = [];
 $past = [];
 
-foreach ($_SESSION["trips"] as $t) {
+foreach ($_SESSION["Trip"] as $t) {
     if ($t["Return"] < $today) {
         $past[] = $t;
     } else {
