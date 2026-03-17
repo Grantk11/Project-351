@@ -1,5 +1,7 @@
 <?php
 session_start();
+require "DB_Connect.php";
+$error = "";
 
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
