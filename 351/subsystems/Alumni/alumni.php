@@ -7,7 +7,76 @@ if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit;
 }
+require_once '../../config/dbconnect.php';
 
+$action = $_POST['action'] ?? '';
+ 
+if ($action === 'post_event') {
+    $stmt = $pdo->prepare("INSERT INTO events (title, event_date, location, posted_by, description) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([
+        $_POST['title'],
+        $_POST['event_date'],
+        $_POST['location'],
+        $_POST['posted_by'],
+        $_POST['description']
+    ]);
+    header("Location: alumni.php?msg=event_added");
+    exit;
+}
+ 
+if ($action === 'post_job') {
+    $stmt = $pdo->prepare("INSERT INTO jobs (title, company, location, job_type, posted_by, description) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->execute([
+        $_POST['title'],
+        $_POST['company'],
+        $_POST['location'],
+        $_POST['job_type'],
+        $_POST['posted_by'],
+        $_POST['description']
+    ]);
+    header("Location: alumni.php?msg=job_added");
+    exit;
+}
+ 
+if ($action === 'post_mentor') {
+    $stmt = $pdo->prepare("INSERT INTO mentors (mentor_name, mentor_email, industry) VALUES (?, ?, ?)");
+    $stmt->execute([
+        $_POST['mentor_name'],
+        $_POST['mentor_email'],
+        $_POST['industry']
+    ]);
+    header("Location: alumni.php?msg=mentor_added");
+    exit;
+}
+ 
+
+ 
+if (isset($_GET['delete']) && isset($_GET['id'])) {
+    $id = (int) $_GET['id'];
+    $type = $_GET['delete'];
+ 
+    if ($type === 'event') {
+        $pdo->prepare("DELETE FROM events WHERE id = ?")->execute([$id]);
+        header("Location: alumni.php?msg=event_deleted");
+        exit;
+    }
+    if ($type === 'job') {
+        $pdo->prepare("DELETE FROM jobs WHERE id = ?")->execute([$id]);
+        header("Location: alumni.php?msg=job_deleted");
+        exit;
+    }
+    if ($type === 'mentor') {
+        $pdo->prepare("DELETE FROM mentors WHERE id = ?")->execute([$id]);
+        header("Location: alumni.php?msg=mentor_deleted");
+        exit;
+    }
+}
+ 
+
+ 
+$events  = $pdo->query("SELECT * FROM events ORDER BY event_date ASC")->fetchAll(PDO::FETCH_ASSOC);
+$jobs    = $pdo->query("SELECT * FROM jobs ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
+$mentors = $pdo->query("SELECT * FROM mentors ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <html lang="en">
