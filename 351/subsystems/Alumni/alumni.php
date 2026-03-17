@@ -18,12 +18,23 @@ if (!isset($_SESSION["user_id"])) {
     <link rel="stylesheet" href="../../351.css">
 </head>
 <body>
-    <div id="wrapper">
-        <header>
-            <h1><a href="../../dashboard.php">351 System Portal</a></h1>
-        </header>
 
-        <div class="site-logo">Logo Here?</div>
+<div id="wrapper">
+
+<header>
+<h1><a href="alumni.php">Alumni Event Dashboard</a></h1>
+</header>
+
+<div class="site-logo">
+<img src="../../ban.png" alt="CNU Banner">
+</div>
+
+<nav>
+<ul>
+<li><a href="alumni_index.php">Back</a></li>
+<li><a href="../../logout.php">Logout</a></li>
+</ul>
+</nav>
 
 <head>
 <meta charset="UTF-8">
@@ -153,10 +164,10 @@ if (!isset($_SESSION["user_id"])) {
   </div>
 </div>
 
-<div class="bottom-actions">
+<!-- <div class="bottom-actions">
   <a href="preview_student.html" class="btn btn-blue">Student View</a>
   <a href="#" class="btn btn-gray">Back to Home Page</a>
-</div>
+</div> -->
 
 </body>
 </html>
