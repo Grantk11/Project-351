@@ -1,6 +1,6 @@
 <?php
 session_start();
-require("../../includes/DB_Connect.php");
+require("../../includes/dbconnect.php");
 
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
@@ -27,8 +27,19 @@ $notes = $stmt->fetchAll();
 <div id="wrapper">
 
 <header>
-<h1>Student Advising Notes</h1>
+<h1><a href="student_notes.php">Student Advising Notes</a></h1>
 </header>
+
+<div class="site-logo">
+<img src="../../ban.png" alt="CNU Banner">
+</div>
+
+<nav>
+<ul>
+<li><a href="advising_index.php">Back to Advising</a></li>
+<li><a href="../../logout.php">Logout</a></li>
+</ul>
+</nav>
 
 <a href="add_note.php?student_id=<?= $studentID ?>">Add Note</a>
 
@@ -55,11 +66,3 @@ $notes = $stmt->fetchAll();
 </body>
 
 </html>
-
-<nav>
-  <ul>
-    <li><a href="../../dashboard.php">Dashboard</a></li>
-    <li><a href="../../my_profile.php">My Profile</a></li>
-    <li><a href="../../logout.php">Logout</a></li>
-  </ul>
-</nav>
