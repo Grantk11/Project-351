@@ -1,222 +1,141 @@
-/* -------------------------
-GLOBAL
-------------------------- */
-
-body{
-    margin:0;
-    font-family: Arial, Helvetica, sans-serif;
-    background:#eef2f8;
-    color:#222;
+/* Modern Reset & Root Variables */
+:root {
+    --primary-color: #2f3640;
+    --accent-color: #00a8ff;
+    --bg-color: #f5f6fa;
+    --text-color: #2f3640;
+    --white: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
 }
 
-
-/* -------------------------
-HEADER
-------------------------- */
-
-.header{
-    background:#0b2a4a;
-    color:white;
-    padding:16px 40px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
 }
 
-.header h2{
-    margin:0;
+/* Header & Typography */
+header {
+    padding: 20px 0;
+    text-align: center;
 }
 
-.header-right a{
-    color:white;
-    text-decoration:none;
-    margin-left:25px;
-    font-weight:500;
+header h1 a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 800;
+    letter-spacing: -1px;
+    font-size: 1.8rem;
+    transition: var(--transition);
 }
 
-.header-right a:hover{
-    text-decoration:underline;
+header h1 a:hover {
+    color: var(--accent-color);
 }
 
-
-/* -------------------------
-WELCOME BAR
-------------------------- */
-
-.welcome{
-    background:#e6ecf7;
-    padding:10px;
-    text-align:center;
-    font-weight:600;
-}
-
-
-/* -------------------------
-DASHBOARD WRAPPER
-------------------------- */
-
-.dashboard-wrapper{
-
-    max-width:900px;
-    margin:40px auto;
-    background:white;
-
-    padding:40px;
-
-    border-radius:10px;
-
-    box-shadow:0 8px 18px rgba(0,0,0,0.08);
-}
-
-
-/* -------------------------
-TEXT
-------------------------- */
-
-h1{
-    margin-top:0;
-    color:#0b2a4a;
-}
-
-.subtitle{
-    color:#666;
-}
-
-
-/* -------------------------
-MAP CARD
-------------------------- */
-
-.map-card{
-
-    background:#f7f9fc;
-
-    padding:30px;
-
-    border-radius:8px;
-
-    text-align:center;
-
-    margin-top:25px;
-}
-
-.map-img{
-    width:420px;
-    max-width:100%;
-}
-
-
-/* -------------------------
-SUBSYSTEM CARDS
-------------------------- */
-
-.cards{
-
-    margin-top:35px;
-
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:20px;
-}
-
-.card{
-
-    background:white;
-
-    border-radius:8px;
-
-    padding:25px;
-
-    text-align:center;
-
-    border:1px solid #e2e6ef;
-
-    transition:.2s;
-}
-
-.card:hover{
-
-    transform:translateY(-4px);
-
-    box-shadow:0 6px 14px rgba(0,0,0,0.1);
-}
-
-.card h3{
-    margin-top:0;
-    color:#0b2a4a;
-}
-
-.card p{
-    color:#666;
-}
-
-.card a{
-
-    display:inline-block;
-
-    margin-top:15px;
-
-    background:#0b2a4a;
-
-    color:white;
-
-    padding:8px 16px;
-
-    border-radius:5px;
-
-    text-decoration:none;
-
-    font-size:14px;
-}
-
-.card a:hover{
-    background:#174a7a;
-}
-/* dashboard map */
-
-.dash-logo{
-    text-align:center;
-    margin:30px 0;
-}
-
-.map-img{
-    width:500px;
-    max-width:100%;
-}
-
-
-/* subsystem list */
-
-.subsystem-links{
-    margin-top:15px;
-}
-
-.subsystem-links li{
-    margin-bottom:10px;
-}
-
-.subsystem-links a{
-    color:#1f4fa3;
-    text-decoration:none;
-    font-weight:500;
-}
-
-.subsystem-links a:hover{
-    text-decoration:underline;
-}
 .site-logo {
     text-align: center;
-    margin: 20px 0;
+    padding: 0;        /* Removes space around the image */
+    margin-bottom: 8;         /* Ensures no outside spacing */
+    line-height: 0;    /* Removes tiny white-space gap at the bottom of images */
+    background: none;
+    width: 100%;
 }
 
 .site-logo img {
-    max-width: 600px;
-	max-height: 300px; /* controls banner size */
-    width: 80%;         /* scales down responsively */
-    height: auto;       /* keeps aspect ratio */
+    width: 100%;       /* Forces image to span the full width of the #wrapper */
+    height: auto;      /* Maintains aspect ratio so it doesn't look stretched */
+    max-height: 330px; /* Adjust this value based on how tall you want the banner */
+    object-fit: fill; /* Crops the image to fill the area if it's too tall */
+    display: block;    /* Removes bottom alignment gaps */
+}
+
+/* Navigation - Modern Pill Style */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    background: var(--primary-color);
+    padding: 15px 20px;
+}
+
+nav ul li a {
+    color: #dcdde1;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+}
+
+nav ul li a:hover {
+    color: var(--white);
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
+/* Container / Wrapper */
+#wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    border-radius: 12px;
+    overflow: hidden; /* Keeps footer/nav corners rounded */
+}
+
+/* Main Content */
+main {
+    padding: 40px;
+}
+
+main h2 {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--bg-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+main ul {
+    padding-left: 20px;
+}
+
+main li {
+    margin-bottom: 10px;
+    color: #57606f;
+}
+
+/* Modern Inputs */
+.input-field {
     display: block;
-    margin: 0 auto;     /* centers the image */
+    width: 100%;
+    padding: 12px 15px;
+    margin: 15px 0;
+    border: 2px solid #edeff2;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: var(--transition);
+    box-sizing: border-box; /* Prevents width overflow */
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(0, 168, 255, 0.1);
+}
+
+/* Footer */
+footer {
+    background: #272c34;
+    color: #a4b0be;
+    padding: 30px;
+    text-align: center;
+    font-size: 13px;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
