@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "DB_Connect.php";
+require "../../includes/dbconnect.php";
 $error = "";
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
@@ -47,17 +47,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>351</title>
     <link rel="stylesheet" href="../../351.css">
-</head>
-<body>
+
     <div id="wrapper">
-        <header>
-            <h1><a href="../../dashboard.php">351 System Portal</a></h1>
-        </header>
+
+<header>
+<h1><a href="trip.php">Trip Creation</a></h1>
+</header>
+
+<div class="site-logo">
+<img src="../../ban.png" alt="CNU Banner">
+</div>
+
+<nav>
+<ul>
+<li><a href="Trip_Home.php">Back to Travel</a></li>
+<li><a href="../../logout.php">Logout</a></li>
+</ul>
+</nav>
 
 
 
 
-<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create Trip</title>
