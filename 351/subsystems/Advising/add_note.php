@@ -5,11 +5,22 @@ require "../../includes/dbconnect.php";
 $studentID = $_GET['student_id'];
 ?>
 <html>
+  <body>
+<div id="wrapper">
+
+<header>
+<h1><a href="add_meeting.php">Add A Note</a></h1>
+</header>
+
+<div class="site-logo">
+<img src="../../ban.png" alt="CNU Banner">
+</div>
+
 <nav>
-  <ul>
-    <li><a href="advising_index">Back to Advising</a></li>
-    <li><a href="../../logout.php">Logout</a></li>
-  </ul>
+<ul>
+<li><a href="advising_index.php">Back to Advising</a></li>
+<li><a href="../../logout.php">Logout</a></li>
+</ul>
 </nav>
 
 <form action="save_note.php" method="POST">
