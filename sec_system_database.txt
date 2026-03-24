@@ -2,18 +2,9 @@
 
 
 
-CREATE TABLE Alumni (
-    AlumniID INT AUTO_INCREMENT PRIMARY KEY,
-    FirstName VARCHAR(30) NOT NULL,
-    LastName  VARCHAR(30) NOT NULL,
-    Email     VARCHAR(255) NOT NULL,
-    Phone     VARCHAR(20),
-    GradYear  INT,
-    Major     VARCHAR(50)
-);
-
 CREATE TABLE users (
-    email VARCHAR(255) NOT NULL PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
     Position VARCHAR(20),
     password VARCHAR(255) NOT NULL,
     verify_token VARCHAR(64),
@@ -22,44 +13,10 @@ CREATE TABLE users (
 
 CREATE TABLE Admin (
     AdminID INT AUTO_INCREMENT PRIMARY KEY,
-    FirstName VARCHAR(20),
-    LastName VARCHAR(20),
-    Email VARCHAR(255),
-    PhoneNumber VARCHAR(15)
-);
-
-CREATE TABLE School_Events (
-    SchoolEventID INT AUTO_INCREMENT PRIMARY KEY,
-    EventLocation VARCHAR(50),
-    EventDate DATE
-);
-
-CREATE TABLE Student (
-    StudentID INT AUTO_INCREMENT PRIMARY KEY,
-    StudentFirstName VARCHAR(20),
-    StudentLastName VARCHAR(20),
-    StudentEmail VARCHAR(255),
-    StudentPhoneNum VARCHAR(20)
-);
-
-CREATE TABLE Professor (
-    ProfessorID INT AUTO_INCREMENT PRIMARY KEY,
-    ProfessorFirstName VARCHAR(20),
-    ProfessorLastName VARCHAR(20),
-    ProfessorEmail VARCHAR(255),
-    ProfessorNotes VARCHAR(100),
-    ProfessorPhoneNum VARCHAR(20)
-);
-
-
-CREATE TABLE Internship_Opportunities (
-    PostingID INT AUTO_INCREMENT PRIMARY KEY,
-    CompanyName VARCHAR(100),
-    PositionDescription VARCHAR(255),
-    AlumniID INT,
-    CompanyContact VARCHAR(20),
-    Requirements VARCHAR(200),
-    FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID)
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    PhoneNumber VARCHAR(20)
 );
 
 CREATE TABLE Trip (
@@ -67,7 +24,7 @@ CREATE TABLE Trip (
     AdminID INT,
     ArrivalDate DATE,
     ReturnDate DATE,
-    EmployeeDestination VARCHAR(50),
+    Destination VARCHAR(100),
     FOREIGN KEY (AdminID) REFERENCES Admin(AdminID)
 );
 
@@ -75,9 +32,32 @@ CREATE TABLE Receipt (
     ReceiptID INT AUTO_INCREMENT PRIMARY KEY,
     TripID INT,
     ReceiptDate DATE,
-    BankInfo VARCHAR(20),
+    BankInfo VARCHAR(50),
     Amount DECIMAL(10,2),
     FOREIGN KEY (TripID) REFERENCES Trip(TripID)
+);
+
+CREATE TABLE Student (
+    StudentID INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(255),
+    Phone VARCHAR(20)
+);
+
+CREATE TABLE Professor (
+    ProfessorID INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(255),
+    Notes VARCHAR(255),
+    Phone VARCHAR(20)
+);
+
+CREATE TABLE School_Events (
+    SchoolEventID INT AUTO_INCREMENT PRIMARY KEY,
+    EventLocation VARCHAR(100),
+    EventDate DATE
 );
 
 CREATE TABLE Attendance (
@@ -92,9 +72,8 @@ CREATE TABLE StudentNote (
     NoteID INT AUTO_INCREMENT PRIMARY KEY,
     StudentID INT,
     ProfessorID INT,
-    StudentExpectedGrad VARCHAR(20),
-    StudentClasses VARCHAR(100),
-    StudentName VARCHAR(50),
+    ExpectedGrad VARCHAR(20),
+    Classes VARCHAR(255),
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
     FOREIGN KEY (ProfessorID) REFERENCES Professor(ProfessorID)
 );
@@ -103,23 +82,42 @@ CREATE TABLE Meeting (
     MeetingID INT AUTO_INCREMENT PRIMARY KEY,
     StudentID INT,
     ProfessorID INT,
-    MeetingLocation VARCHAR(50),
-    MeetingName VARCHAR(50),
+    Location VARCHAR(100),
+    Name VARCHAR(100),
     MeetingDate DATE,
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
     FOREIGN KEY (ProfessorID) REFERENCES Professor(ProfessorID)
 );
 
+CREATE TABLE Alumni (
+    AlumniID INT AUTO_INCREMENT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(255),
+    Phone VARCHAR(20),
+    GradYear INT,
+    Major VARCHAR(100)
+);
+
+CREATE TABLE Internship_Opportunities (
+    PostingID INT AUTO_INCREMENT PRIMARY KEY,
+    CompanyName VARCHAR(100),
+    PositionDescription VARCHAR(255),
+    AlumniID INT,
+    CompanyContact VARCHAR(50),
+    Requirements VARCHAR(255),
+    FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID)
+);
+
 CREATE TABLE Applications (
     ApplicationID INT AUTO_INCREMENT PRIMARY KEY,
-    ApplicationName VARCHAR(40),
-    ApplicationDescription VARCHAR(100),
+    ApplicationName VARCHAR(100),
+    ApplicationDescription VARCHAR(255),
     AlumniID INT,
     PostingID INT,
     FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID),
     FOREIGN KEY (PostingID) REFERENCES Internship_Opportunities(PostingID)
 );
-
 
 #just in case i need to drop tables
 SET FOREIGN_KEY_CHECKS = 0;
