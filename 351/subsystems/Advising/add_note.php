@@ -1,10 +1,16 @@
 <?php
 session_start();
-require "DB_Connect.php";
+require "../../includes/dbconnect.php";
 
 $studentID = $_GET['student_id'];
 ?>
-
+<html>
+<nav>
+  <ul>
+    <li><a href="advising_index">Back to Advising</a></li>
+    <li><a href="../../logout.php">Logout</a></li>
+  </ul>
+</nav>
 
 <form action="save_note.php" method="POST">
 
@@ -23,11 +29,3 @@ $studentID = $_GET['student_id'];
 <button type="submit">Save Note</button>
 
 </form>
-
-<nav>
-  <ul>
-    <li><a href="../../dashboard.php">Dashboard</a></li>
-    <li><a href="../../my_profile.php">My Profile</a></li>
-    <li><a href="../../logout.php">Logout</a></li>
-  </ul>
-</nav>
