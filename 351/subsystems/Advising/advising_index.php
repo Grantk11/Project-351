@@ -17,7 +17,22 @@ if (!isset($_SESSION["user_id"])) {
 
 <body>
 
-<h1>Advising Subsystem</h1>
+<div id="wrapper">
+
+<header>
+<h1><a href="dashboard.php">Advising Dashboard</a></h1>
+</header>
+
+<div class="site-logo">
+<img src="../../ban.png" alt="CNU Banner">
+</div>
+
+<nav>
+<ul>
+<li><a href="../../dashboard.php">Back to Portal</a></li>
+<li><a href="../../logout.php">Logout</a></li>
+</ul>
+</nav>
 
 <div class="cards">
 
