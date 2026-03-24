@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "DB_Connect.php"; 
+require "../../includes/dbconnect.php"; 
 
 $stmt = $pdo->prepare("
 UPDATE StudentNote
