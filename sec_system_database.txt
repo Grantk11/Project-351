@@ -2,7 +2,6 @@
 
 
 
-
 CREATE TABLE Alumni (
     AlumniID INT AUTO_INCREMENT PRIMARY KEY,
     FirstName VARCHAR(30) NOT NULL,
@@ -13,25 +12,33 @@ CREATE TABLE Alumni (
     Major     VARCHAR(50)
 );
 
-CREATE TABLE Employee_and_Admin(
-    EmployeeID INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE users (
+    email VARCHAR(255) NOT NULL PRIMARY KEY,
+    Position VARCHAR(20),
+    password VARCHAR(255) NOT NULL,
+    verify_token VARCHAR(64),
+    is_verified TINYINT(1) DEFAULT 0
+);
+
+CREATE TABLE Admin (
+    AdminID INT AUTO_INCREMENT PRIMARY KEY,
     FirstName VARCHAR(20),
     LastName VARCHAR(20),
-    Email VARCHAR(20),
+    Email VARCHAR(255),
     PhoneNumber VARCHAR(15)
 );
 
-CREATE TABLE School_Events(
+CREATE TABLE School_Events (
     SchoolEventID INT AUTO_INCREMENT PRIMARY KEY,
-    EventLocation VARCHAR(20),
+    EventLocation VARCHAR(50),
     EventDate DATE
 );
 
 CREATE TABLE Student (
     StudentID INT AUTO_INCREMENT PRIMARY KEY,
     StudentFirstName VARCHAR(20),
-    StudentLastname VARCHAR(20),
-    StudentEmail VARCHAR(20),
+    StudentLastName VARCHAR(20),
+    StudentEmail VARCHAR(255),
     StudentPhoneNum VARCHAR(20)
 );
 
@@ -39,40 +46,41 @@ CREATE TABLE Professor (
     ProfessorID INT AUTO_INCREMENT PRIMARY KEY,
     ProfessorFirstName VARCHAR(20),
     ProfessorLastName VARCHAR(20),
-    ProfessorEmail VARCHAR(20),
-    ProfessorNotes VARCHAR(20),
+    ProfessorEmail VARCHAR(255),
+    ProfessorNotes VARCHAR(100),
     ProfessorPhoneNum VARCHAR(20)
 );
 
+
 CREATE TABLE Internship_Opportunities (
     PostingID INT AUTO_INCREMENT PRIMARY KEY,
-    CompanyName VARCHAR(20),
-    PositionDescription VARCHAR(20),
+    CompanyName VARCHAR(100),
+    PositionDescription VARCHAR(255),
     AlumniID INT,
-    CompanyContact VARCHAR(10),
+    CompanyContact VARCHAR(20),
     Requirements VARCHAR(200),
     FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID)
 );
 
-CREATE TABLE Trip(
+CREATE TABLE Trip (
     TripID INT AUTO_INCREMENT PRIMARY KEY,
-    EmployeeID INT,
+    AdminID INT,
     ArrivalDate DATE,
     ReturnDate DATE,
-    EmployeeDestination VARCHAR(15),
-    FOREIGN KEY (EmployeeID) REFERENCES Employee_and_Admin(EmployeeID)
+    EmployeeDestination VARCHAR(50),
+    FOREIGN KEY (AdminID) REFERENCES Admin(AdminID)
 );
 
-CREATE TABLE Receipt(
+CREATE TABLE Receipt (
     ReceiptID INT AUTO_INCREMENT PRIMARY KEY,
     TripID INT,
-    Date DATE,
+    ReceiptDate DATE,
     BankInfo VARCHAR(20),
     Amount DECIMAL(10,2),
     FOREIGN KEY (TripID) REFERENCES Trip(TripID)
 );
 
-CREATE TABLE Attendance(
+CREATE TABLE Attendance (
     AttendanceID INT AUTO_INCREMENT PRIMARY KEY,
     StudentID INT,
     SchoolEventID INT,
@@ -85,8 +93,8 @@ CREATE TABLE StudentNote (
     StudentID INT,
     ProfessorID INT,
     StudentExpectedGrad VARCHAR(20),
-    StudentClasses VARCHAR(20),
-    StudentName VARCHAR(20),
+    StudentClasses VARCHAR(100),
+    StudentName VARCHAR(50),
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
     FOREIGN KEY (ProfessorID) REFERENCES Professor(ProfessorID)
 );
@@ -95,8 +103,8 @@ CREATE TABLE Meeting (
     MeetingID INT AUTO_INCREMENT PRIMARY KEY,
     StudentID INT,
     ProfessorID INT,
-    MeetingLocation VARCHAR(20),
-    MeetingName VARCHAR(20),
+    MeetingLocation VARCHAR(50),
+    MeetingName VARCHAR(50),
     MeetingDate DATE,
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
     FOREIGN KEY (ProfessorID) REFERENCES Professor(ProfessorID)
@@ -105,30 +113,12 @@ CREATE TABLE Meeting (
 CREATE TABLE Applications (
     ApplicationID INT AUTO_INCREMENT PRIMARY KEY,
     ApplicationName VARCHAR(40),
-    ApplicationDescription VARCHAR(40),
+    ApplicationDescription VARCHAR(100),
     AlumniID INT,
     PostingID INT,
     FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID),
     FOREIGN KEY (PostingID) REFERENCES Internship_Opportunities(PostingID)
 );
-
-Create TABLE User(
-UserEmail VARCHAR(20),
-Postion VARCHAR(20),
-Password INT,
-
-);
-
-CREATE TABLE users (
-    email VARCHAR(255) NOT NULL,
-    Position VARCHAR(20) NULL,
-    password VARCHAR(255) NULL,
-    verify_token VARCHAR(64) NULL,
-    is_verified TINYINT(1) DEFAULT 0,
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (id)
-);
-
 
 
 #just in case i need to drop tables
