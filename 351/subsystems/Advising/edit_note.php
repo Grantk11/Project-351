@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "DB_Connect.php";  
+require "../../includes/dbconnect.php";  
 
 $id = $_GET['id'];
 
@@ -9,7 +9,27 @@ $stmt->execute([$id]);
 
 $note = $stmt->fetch();
 ?>
+<html>
+  <head>
+    <link rel="stylesheet" href="../../351.css">
+  </head>
+  <body>
+    <div id="wrapper">
 
+<header>
+<h1><a href="edit_note.php">Edit Note</a></h1>
+</header>
+
+<div class="site-logo">
+<img src="../../ban.png" alt="CNU Banner">
+</div>
+
+<nav>
+<ul>
+<li><a href="advising_index.php">Back to Advising</a></li>
+<li><a href="../../logout.php">Logout</a></li>
+</ul>
+</nav>
 <form action="update_note.php" method="POST">
 
 <input type="hidden" name="note_id" value="<?= $note['NoteID'] ?>">
