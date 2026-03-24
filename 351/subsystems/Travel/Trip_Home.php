@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "DB_Connect.php";
+require "../../includes/dbconnect.php";
 $error = "";
 
 if (!isset($_SESSION["user_id"])) {
@@ -16,7 +16,8 @@ if (!isset($_SESSION["user_id"])) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home | Trip Management Portal</title>
+<title>Travel</title>
+<link rel="stylesheet" href="../../351.css">
 
 <style>
 :root {
