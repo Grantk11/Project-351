@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "DB_Connect.php";
+require "../../includes/dbconnect.php";
 $error = "";
 
 if (!isset($_SESSION['user_id'])) {
@@ -68,10 +68,22 @@ foreach ($_SESSION["Trip"] as $t) {
     <link rel="stylesheet" href="../../351.css">
 </head>
 <body>
-    <div id="wrapper">
-        <header>
-            <h1><a href="../../dashboard.php">351 System Portal</a></h1>
-        </header>
+   <div id="wrapper">
+
+<header>
+<h1><a href="trip_create.php">Trip Creation</a></h1>
+</header>
+
+<div class="site-logo">
+<img src="../../ban.png" alt="CNU Banner">
+</div>
+
+<nav>
+<ul>
+<li><a href="Trip_Home.php">Back to Travel</a></li>
+<li><a href="../../logout.php">Logout</a></li>
+</ul>
+</nav>
 
 
 
