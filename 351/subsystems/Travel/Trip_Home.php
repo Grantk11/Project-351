@@ -38,15 +38,6 @@ body {
     background:linear-gradient(180deg,#f6f7fb,#ffffff);
 }
 
-nav {
-    background:var(--nav);
-    padding:16px;
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
-    color:white;
-}
-
 .container {
     max-width:900px;
     margin:60px auto;
@@ -106,12 +97,26 @@ p {
 </head>
 
 <body>
+<div id="wrapper">
 
-<nav>Trip Management Portal</nav>
+<header>
+<h1><a href="Trip_Home.php">Travel Dashboard</a></h1>
+</header>
+
+<div class="site-logo">
+<img src="../../ban.png" alt="CNU Banner">
+</div>
+
+<nav>
+<ul>
+<li><a href="../../dashboard.php">Back to Portal</a></li>
+<li><a href="../../logout.php">Logout</a></li>
+</ul>
+</nav>
 
 <div class="container">
 
-<h1>Welcome</h1>
+<h1>Trip Management Portal</h1>
 <p>Select an option below to manage your travel requests and reimbursements.</p>
 
 <div class="grid">
