@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "../../DB_Connect.php";
+require "../../includes/dbconnect.php";
 
 $student_id = isset($_GET['student_id']) ? intval($_GET['student_id']) : 0;
 
@@ -25,15 +25,22 @@ $result = mysqli_stmt_get_result($stmt);
 </head>
 <body>
 
-<div style="display: block; margin-bottom: 10px;">
-    <a href="../../dashboard.php">Back to Dashboard</a>
-</div>
-
 <div id="wrapper">
 
-    <header>
-        <h1>Advising Meetings</h1>
-    </header>
+<header>
+<h1><a href="Advising Meetings.php">Advising Meetings</a></h1>
+</header>
+
+<div class="site-logo">
+<img src="../../ban.png" alt="CNU Banner">
+</div>
+
+<nav>
+<ul>
+<li><a href="advising_index.php">Back to Advising</a></li>
+<li><a href="../../logout.php">Logout</a></li>
+</ul>
+</nav>
 
     <main>
 
