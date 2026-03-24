@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "../../DB_Connect.php";
+require "../../dbconnect.php";
 
 $studentID = $_GET['student_id'] ?? '';
 ?>
@@ -16,7 +16,7 @@ $studentID = $_GET['student_id'] ?? '';
 <body>
 
 <div style="display: block; margin-bottom: 10px;">
-    <a href="../../dashboard.php">Back to Dashboard</a>
+    <a href="advising_index.php">Back to Advising</a>
 </div>
 
 <div id="wrapper">
