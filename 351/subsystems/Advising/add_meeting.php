@@ -15,6 +15,23 @@ $studentID = $_GET['student_id'] ?? '';
 </head>
 <body>
 
+    <div id="wrapper">
+
+<header>
+<h1><a href="add_meeting.php">Schedule A Meeting</a></h1>
+</header>
+
+<div class="site-logo">
+<img src="../../ban.png" alt="CNU Banner">
+</div>
+
+<nav>
+<ul>
+<li><a href="advising_index.php">Back to Advising</a></li>
+<li><a href="../../logout.php">Logout</a></li>
+</ul>
+</nav>
+        
 <div style="display: block; margin-bottom: 10px;">
     <a href="advising_index.php">Back to Advising</a>
 </div>
