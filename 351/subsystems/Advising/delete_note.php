@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "../../includes/DB_Connect.php";
+require "../../includes/dbconnect.php";
 
 $note_id    = isset($_GET['note_id'])    ? intval($_GET['note_id'])    : 0;
 $student_id = isset($_GET['student_id']) ? intval($_GET['student_id']) : 0;
