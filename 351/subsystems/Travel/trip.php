@@ -35,7 +35,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       $error = "Return date must be after arrival date.";
     }
   }
+  if (!$error) {
 
+    $stmt = $conn->prepare("
+        INSERT INTO Trip (EmployeeID, EmployeeDestination, ArrivalDate, ReturnDate)
+        VALUES (?, ?, ?, ?)
+    ");
+
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    $employeeID = (int)$employeeID;
+
+    $stmt->bind_param("isss", $employeeID, $destination, $arrivalDate, $returnDate);
+
+    if (!$stmt->execute()) {
+        die("EXECUTE ERROR: " . $stmt->error);
+    }
+
+    echo "SUCCESS";
+
+    $stmt->close();
+  }
 
 }
 ?>
