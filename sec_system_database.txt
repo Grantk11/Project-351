@@ -60,14 +60,6 @@ CREATE TABLE School_Events (
     EventDate DATE
 );
 
-CREATE TABLE Attendance (
-    AttendanceID INT AUTO_INCREMENT PRIMARY KEY,
-    StudentID INT,
-    SchoolEventID INT,
-    FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
-    FOREIGN KEY (SchoolEventID) REFERENCES School_Events(SchoolEventID)
-);
-
 CREATE TABLE StudentNote (
     NoteID INT AUTO_INCREMENT PRIMARY KEY,
     StudentID INT,
@@ -107,16 +99,6 @@ CREATE TABLE Internship_Opportunities (
     CompanyContact VARCHAR(50),
     Requirements VARCHAR(255),
     FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID)
-);
-
-CREATE TABLE Applications (
-    ApplicationID INT AUTO_INCREMENT PRIMARY KEY,
-    ApplicationName VARCHAR(100),
-    ApplicationDescription VARCHAR(255),
-    AlumniID INT,
-    PostingID INT,
-    FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID),
-    FOREIGN KEY (PostingID) REFERENCES Internship_Opportunities(PostingID)
 );
 
 #just in case i need to drop tables
