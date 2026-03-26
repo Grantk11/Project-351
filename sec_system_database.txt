@@ -2,12 +2,15 @@
 
 
 
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    Position VARCHAR(20),
-    password VARCHAR(255) NOT NULL,
-);
+CREATE TABLE `users` (
+  `email` varchar(255) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `Position` enum('student','professor','alumni','admin') NOT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+)
 
 CREATE TABLE Admin (
     AdminID INT AUTO_INCREMENT PRIMARY KEY,
