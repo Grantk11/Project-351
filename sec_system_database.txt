@@ -17,15 +17,14 @@ CREATE TABLE Admin (
     PhoneNumber VARCHAR(20),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
 CREATE TABLE Trip (
     TripID INT AUTO_INCREMENT PRIMARY KEY,
-    AdminID INT,
+    user_id INT NOT NULL,                              
     ArrivalDate DATE,
     ReturnDate DATE,
     Destination VARCHAR(100),
-    FOREIGN KEY (AdminID) REFERENCES Admin(AdminID)
-);
+    Status ENUM('Pending','Approved','Denied') DEFAULT 'Pending',  
+    AdminID INT NULL,  
 
 CREATE TABLE Receipt (
     ReceiptID INT AUTO_INCREMENT PRIMARY KEY,
