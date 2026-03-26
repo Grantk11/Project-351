@@ -7,16 +7,15 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,
     Position VARCHAR(20),
     password VARCHAR(255) NOT NULL,
-    verify_token VARCHAR(64),
-    is_verified TINYINT(1) DEFAULT 0
 );
 
 CREATE TABLE Admin (
     AdminID INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    PhoneNumber VARCHAR(20)
+    PhoneNumber VARCHAR(20),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE Trip (
@@ -39,19 +38,21 @@ CREATE TABLE Receipt (
 
 CREATE TABLE Student (
     StudentID INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
-    Email VARCHAR(255),
-    Phone VARCHAR(20)
+    Phone VARCHAR(20),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE Professor (
     ProfessorID INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
     FirstName VARCHAR(50),
     LastName VARCHAR(50),
-    Email VARCHAR(255),
     Notes VARCHAR(255),
-    Phone VARCHAR(20)
+    Phone VARCHAR(20),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE School_Events (
