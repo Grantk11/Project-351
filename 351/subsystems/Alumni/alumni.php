@@ -74,8 +74,8 @@ if (isset($_GET['delete']) && isset($_GET['id'])) {
  
 
  
-$events  = $pdo->query("SELECT * FROM events ORDER BY event_date ASC")->fetchAll(PDO::FETCH_ASSOC);
-$jobs    = $pdo->query("SELECT * FROM jobs ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
+$School_events  = $pdo->query("SELECT * FROM School_events ORDER BY event_date ASC")->fetchAll(PDO::FETCH_ASSOC);
+$Internship_opportunities    = $pdo->query("SELECT * FROM Internship_opportunities ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
 $mentors = $pdo->query("SELECT * FROM mentors ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
