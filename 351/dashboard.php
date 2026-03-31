@@ -54,11 +54,9 @@ $role = $_SESSION["role"] ?? '';
  
                 <?php
                 // Alumni system: all roles can enter, but land on different pages
-                if ($role === 'student') {
-                    $alumni_link = "subsystems/alumni/alumni_events.php";
-                } else {
+       
                     $alumni_link = "subsystems/alumni/alumni_index.php";
-                }
+           
                 ?>
                 <area alt="Alumni" href="<?php echo $alumni_link; ?>"
                       coords="366,445,416,515,566,298,497,253,429,352,406,392" shape="poly">
@@ -77,12 +75,8 @@ $role = $_SESSION["role"] ?? '';
             <?php if (has_role(['student', 'professor'])): ?>
             <li><a href="subsystems/Advising/advising_index.php">Course Advising System</a></li>
             <?php endif; ?>
- 
-            <?php if ($role === 'student'): ?>
-            <li><a href="subsystems/alumni/alumni_events.php">Alumni Events</a></li>
-            <?php else: ?>
+
             <li><a href="subsystems/alumni/alumni_index.php">Alumni Connection System</a></li>
-            <?php endif; ?>
  
             <li><a href="subsystems/travel/trip_home.php">Conference Travel System</a></li>
  
