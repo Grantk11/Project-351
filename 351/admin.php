@@ -1,6 +1,10 @@
 <?php
 session_start();
-require_once __DIR__ . "/includes/auth_check.php";
+$auth_path = __DIR__ . "/includes/auth_check.php";
+if (!file_exists($auth_path)) {
+    die("auth_check.php not found at: " . $auth_path);
+}
+require_once $auth_path;
 require_once __DIR__ . "/includes/dbconnect.php";
 require_admin();
 
