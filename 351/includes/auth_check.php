@@ -34,7 +34,15 @@ function require_role(array $allowed_roles) {
         exit;
     }
 }
- 
+
+function require_admin() {
+    require_login();
+    if (($_SESSION['role'] ?? '') !== 'admin') {
+        header("Location: /dashboard.php?error=access_denied");
+        exit;
+    }
+}
+
 /**
  * Returns true if the current user has one of the given roles.
  * Useful for conditionally showing UI elements.
