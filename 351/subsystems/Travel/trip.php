@@ -1,80 +1,56 @@
 <?php
 session_start();
-require "../../includes/dbconnect.php";
+require "dbconnect.php";
+
 $error = "";
+$success = "";
+
+
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit;
 }
 
-
+$user_id = $_SESSION["user_id"];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-  $employeeID  = $_POST["EmployeeID"] ?? "";
-  $destination = $_POST["EmployeeDestination"] ?? "";
-  $arrivalDate = $_POST["Arrival_Date"] ?? "";
-  $returnDate  = $_POST["Return_Date"] ?? "";
+    $destination = trim($_POST["Destination"] ?? "");
+    $arrivalDate = $_POST["ArrivalDate"] ?? "";
+    $returnDate  = $_POST["ReturnDate"] ?? "";
 
-  
-  if (!ctype_digit((string)$employeeID) || strlen((string)$employeeID) !== 8) {
-    $error = "Not a valid ID (must be exactly 8 digits).";
-  }
-
-
-  if (!$error && !empty($arrivalDate)) {
-    $year = (int)date("Y", strtotime($arrivalDate));
-    if ($year < 2026) {
-      $error = "Arrival year must be 2026 or later.";
-    }
-  }
-
-
-  if (!$error && !empty($arrivalDate) && !empty($returnDate)) {
-    if (strtotime($returnDate) < strtotime($arrivalDate)) {
-      $error = "Return date must be after arrival date.";
-    }
-  }
-  if (!$error) {
-
-    $stmt = $conn->prepare("
-        INSERT INTO Trip (EmployeeID, EmployeeDestination, ArrivalDate, ReturnDate)
-        VALUES (?, ?, ?, ?)
-    ");
-
-    if (!$stmt) {
-        die("Prepare failed: " . $conn->error);
+    if (!$destination || !$arrivalDate || !$returnDate) {
+        $error = "Please fill out all fields.";
+    } elseif ((int)date("Y", strtotime($arrivalDate)) < 2026) {
+        $error = "Arrival year must be 2026 or later.";
+    } elseif (strtotime($returnDate) < strtotime($arrivalDate)) {
+        $error = "Return date must be after arrival date.";
     }
 
-    $employeeID = (int)$employeeID;
+    if (!$error) {
+        $stmt = $pdo->prepare(
+            "INSERT INTO trip (user_id, Destination, ArrivalDate, ReturnDate, Status)
+             VALUES (?, ?, ?, ?, ?)"
+        );
+        $stmt->execute([$user_id, $destination, $arrivalDate, $returnDate, 'Pending']);
 
-    $stmt->bind_param("isss", $employeeID, $destination, $arrivalDate, $returnDate);
-
-    if (!$stmt->execute()) {
-        die("EXECUTE ERROR: " . $stmt->error);
+        
+        header("Location: trip_create.php");
+        exit;
     }
-
-    echo "SUCCESS";
-
-    $stmt->close();
-  }
-
 }
 ?>
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>351</title>
-    <link rel="stylesheet" href="../../351.css">
-
-    <div id="wrapper">
-
-<header>
-<h1><a href="trip.php">Trip Creation</a></h1>
-</header>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Trip</title>
+<link rel="stylesheet" href="trip.css">
+</head>
+<body>
+<div id="wrapper">
 
 <div class="site-logo">
 <img src="../../ban.png" alt="CNU Banner">
@@ -87,131 +63,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </ul>
 </nav>
 
+<div class="container">
+<h1>Create a Trip</h1>
 
+<?php if ($error): ?>
+<div class="error"><?= htmlspecialchars($error) ?></div>
+<?php endif; ?>
 
+<form method="POST" action="">
+    <label for="Destination">Destination:</label><br>
+    <input type="text" id="Destination" name="Destination" maxlength="100" required
+           value="<?= htmlspecialchars($_POST['Destination'] ?? '') ?>"><br><br>
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Create Trip</title>
+    <label for="ArrivalDate">Arrival Date:</label><br>
+    <input type="date" id="ArrivalDate" name="ArrivalDate" required
+           value="<?= htmlspecialchars($_POST['ArrivalDate'] ?? '') ?>"><br><br>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f6f8;
-      margin: 0;
-      padding: 0;
-    }
+    <label for="ReturnDate">Return Date:</label><br>
+    <input type="date" id="ReturnDate" name="ReturnDate" required
+           value="<?= htmlspecialchars($_POST['ReturnDate'] ?? '') ?>"><br><br>
 
-    nav {
-      background-color: #1f2933;
-      padding: 12px;
-      text-align: center;
-    }
+    <button type="submit">Create Trip</button>
+</form>
 
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      margin: 0 12px;
-      font-weight: bold;
-    }
-
-    nav a:hover { text-decoration: underline; }
-
-    .container {
-      max-width: 500px;
-      background-color: #ffffff;
-      margin: 40px auto;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #1f2933;
-    }
-
-    .error {
-      background: #fee2e2;
-      border: 1px solid #ef4444;
-      color: #991b1b;
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 16px;
-      font-weight: bold;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    input {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 18px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    input:focus {
-      border-color: #2563eb;
-      outline: none;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #2563eb;
-      color: #ffffff;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover { background-color: #1d4ed8; }
-
-    .hero {
-      text-align: center;
-      margin-top: 18px;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="hero">
-    <img src="travel.png" alt="travel" width="500">
-  </div>
-
-  <div class="container">
-    <h1>Create a Trip</h1>
-
-
-    <form action="trip_create.php" method="post">
-      <label for="EmployeeID">Employee ID</label>
-      <input type="text" id="EmployeeID" name="EmployeeID" maxlength="8" required>
-
-      <label for="EmployeeDestination">Destination</label>
-      <input type="text" id="EmployeeDestination" name="EmployeeDestination" maxlength="15" required>
-
-      <label for="Arrival_Date">Arrival Date</label>
-      <input type="date" id="Arrival_Date" name="Arrival_Date" required>
-
-      <label for="Return_Date">Return Date</label>
-      <input type="date" id="Return_Date" name="Return_Date" required>
-
-      <button type="submit">Create Trip</button>
-      
-      
-    </form>
-  </div>
-
+</div>
+</div>
 </body>
 </html>
