@@ -103,6 +103,11 @@ CREATE TABLE Internship_Opportunities (
     Requirements VARCHAR(255),
     FOREIGN KEY (AlumniID) REFERENCES Alumni(AlumniID)
 );
+
+# NEW STUFF ON 3/31 --- COPY & PASTE BELOW
+
+# Alumni Subsystem
+
 CREATE TABLE IF NOT EXISTS events (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100),
@@ -159,6 +164,21 @@ CREATE TABLE IF NOT EXISTS mentor_requests (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+# ADMIN LOGIN
+
+INSERT INTO users (email, last_name, first_name, Position, password)
+VALUES (
+    '351admin@admin.com',
+    '351admin',
+    '351admin',
+    'admin',
+    '$2y$10$zmsE2tgSySgbKHZtLRhl.OF5BUuKOPj9R49AO99OuWWPZik2vCpiu'
+);
+
+# Email: 351admin@admin.com
+# Password: Admin1234!
+
+#________________________________________________________________________________________
 
 #just in case i need to drop tables
 SET FOREIGN_KEY_CHECKS = 0;
