@@ -1,26 +1,5 @@
 #Captains_Compass_system database sql code
 
-DROP TABLE IF EXISTS advising_slots;
-
-CREATE TABLE advising_slots (
-    slot_id    INT          NOT NULL AUTO_INCREMENT,
-    faculty_id INT          NOT NULL,
-    slot_date  DATE         NOT NULL,
-    slot_time  TIME         NOT NULL,
-    location   VARCHAR(100) NOT NULL,
-    notes      TEXT,
-    is_booked  TINYINT(1)   NOT NULL DEFAULT 0,
-    student_id INT          DEFAULT NULL,
-
-    PRIMARY KEY (slot_id),
-
-    UNIQUE KEY uq_professor_slot (faculty_id, slot_date, slot_time),
-
-    CONSTRAINT fk_slot_professor FOREIGN KEY (faculty_id) REFERENCES users(id) ON DELETE CASCADE,
-    CONSTRAINT fk_slot_student   FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
 CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `last_name` varchar(100) NOT NULL,
@@ -46,7 +25,7 @@ CREATE TABLE Trip (
     ReturnDate DATE,
     Destination VARCHAR(100),
     Status ENUM('Pending','Approved','Denied') DEFAULT 'Pending',  
-    AdminID INT NULL,  
+    AdminID INT NULL);
 
 CREATE TABLE Receipt (
     ReceiptID INT AUTO_INCREMENT PRIMARY KEY,
@@ -56,6 +35,26 @@ CREATE TABLE Receipt (
     Amount DECIMAL(10,2),
     FOREIGN KEY (TripID) REFERENCES Trip(TripID)
 );
+
+DROP TABLE IF EXISTS advising_slots;
+
+CREATE TABLE advising_slots (
+    slot_id    INT          NOT NULL AUTO_INCREMENT,
+    faculty_id INT          NOT NULL,
+    slot_date  DATE         NOT NULL,
+    slot_time  TIME         NOT NULL,
+    location   VARCHAR(100) NOT NULL,
+    notes      TEXT,
+    is_booked  TINYINT(1)   NOT NULL DEFAULT 0,
+    student_id INT          DEFAULT NULL,
+
+    PRIMARY KEY (slot_id),
+
+    UNIQUE KEY uq_professor_slot (faculty_id, slot_date, slot_time),
+
+    CONSTRAINT fk_slot_professor FOREIGN KEY (faculty_id) REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_slot_student   FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE Student (
     StudentID INT AUTO_INCREMENT PRIMARY KEY,
