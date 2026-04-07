@@ -59,10 +59,10 @@ $role = $_SESSION["role"] ?? '';
                 
                 
                 ?>
-                <area alt="Alumni" href="subsystems/alumni/alumni_index.php"
+                <area alt="Alumni" href="subsystems/Alumni/alumni_index.php"
                       coords="366,445,416,515,566,298,497,253,429,352,406,392" shape="poly">
  
-                <area alt="Travel" href="subsystems/travel/trip_home.php"
+                <area alt="Travel" href="subsystems/Travel/trip_home.php"
                       coords="482,540,709,199,758,228,739,320,771,351,684,516,616,529,541,576"
                       shape="poly">
  
