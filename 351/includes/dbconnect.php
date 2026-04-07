@@ -1,8 +1,8 @@
 <?php
-$host = "ec2-3-148-84-102.us-east-2.compute.amazonaws.com";
-$db   = "sec_system";       // change if needed
-$user = "root";       // your MySQL user
-$pass = "351admin";       // your MySQL password
+$host = "localhost";
+$db   = "sec_system";
+$user = "admin_351";
+$pass = "351admin";
 $charset = "utf8mb4";
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -15,7 +15,10 @@ $options = [
 
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
+    // If we reach here, connection is successful!
+    echo "Connection successful!";
 } catch (PDOException $e) {
-    die("Database connection failed");
+    // This will tell us EXACTLY what is wrong (Access denied, Unknown database, etc.)
+    die("Detailed Error: " . $e->getMessage());
 }
 ?>
