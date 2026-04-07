@@ -1,8 +1,8 @@
 <?php
-$host = "localhost";
+$host = "ec2-3-148-84-102.us-east-2.compute.amazonaws.com";
 $db   = "sec_system";       // change if needed
 $user = "root";       // your MySQL user
-$pass = "";       // your MySQL password
+$pass = "351admin";       // your MySQL password
 $charset = "utf8mb4";
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
