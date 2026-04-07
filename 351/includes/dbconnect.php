@@ -12,7 +12,10 @@ $options = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
-
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+    // If we reach here, connection is successful!
+    echo "";
 } catch (PDOException $e) {
     // This will tell us EXACTLY what is wrong (Access denied, Unknown database, etc.)
     die("Detailed Error: " . $e->getMessage());
