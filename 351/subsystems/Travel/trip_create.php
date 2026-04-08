@@ -1,33 +1,27 @@
 <?php
 session_start();
 require "dbconnect.php";
-
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit;
 }
-
 $user_id = $_SESSION["user_id"];
 $created = $_GET['created'] ?? null;
-
-
 $stmt = $pdo->prepare("SELECT * FROM trip WHERE user_id = ? ORDER BY ArrivalDate ASC");
 $stmt->execute([$user_id]);
 $trips = $stmt->fetchAll();
-
 $today = date("Y-m-d");
 $upcoming = [];
 $past = [];
-
 foreach ($trips as $t) {
-    if (!empty($t["ReturnDate"]) && $t["ReturnDate"] < $today) {
+    $endDate = !empty($t["ReturnDate"]) ? $t["ReturnDate"] : $t["ArrivalDate"];
+    if (!empty($endDate) && $endDate < $today) {
         $past[] = $t;
     } else {
         $upcoming[] = $t;
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,30 +31,23 @@ foreach ($trips as $t) {
 <link rel="stylesheet" href="trip_create.css">
 </head>
 <body>
-
 <div id="wrapper">
-
 <header>
 <h1>My Trips</h1>
 </header>
-
 <div class="site-logo">
 <img src="../../ban.png" alt="CNU Banner">
 </div>
-
 <nav>
 <ul>
 <li><a href="trip.php">Create New Trip</a></li>
 <li><a href="../../logout.php">Logout</a></li>
 </ul>
 </nav>
-
 <div class="container">
-
 <?php if ($created): ?>
 <div class="success">Trip successfully created!</div>
 <?php endif; ?>
-
 <div class="section-title">Upcoming Trips</div>
 <table>
 <thead>
@@ -83,15 +70,11 @@ foreach ($trips as $t) {
 <td><?= htmlspecialchars($trip["ArrivalDate"]) ?></td>
 <td><?= htmlspecialchars($trip["ReturnDate"]) ?></td>
 <td><span class="pill <?= strtolower($trip["Status"]) ?>"><?= htmlspecialchars($trip["Status"]) ?></span></td>
-<td>
-	<a href="reciept_create.php?tripID=<?= htmlspecialchars($trip["TripID"]) ?>" class="button"></a>
-</td>
 </tr>
 <?php endforeach; ?>
 <?php endif; ?>
 </tbody>
 </table>
-
 <div class="section-title">Past Trips</div>
 <table>
 <thead>
@@ -114,16 +97,11 @@ foreach ($trips as $t) {
 <td><?= htmlspecialchars($trip["ArrivalDate"]) ?></td>
 <td><?= htmlspecialchars($trip["ReturnDate"]) ?></td>
 <td><span class="pill <?= strtolower($trip["Status"]) ?>"><?= htmlspecialchars($trip["Status"]) ?></span></td>
-<td>
-    <a href="reciept_create.php?tripID=<?= htmlspecialchars($trip["TripID"]) ?>" class="button">Submit Reimbursement</a>
-</td>
-
 </tr>
 <?php endforeach; ?>
 <?php endif; ?>
 </tbody>
 </table>
-
 </div>
 </div>
 </body>
