@@ -10,13 +10,14 @@ $stmt = $pdo->prepare("SELECT r.* FROM Receipt r INNER JOIN Trip t ON r.TripID =
 $stmt->execute([$user_id]);
 $receipts = $stmt->fetchAll();
 $today = date("Y-m-d");
-$current = [];
-$past = [];
+$pending = [];
+$resolved = [];
 foreach ($receipts as $r) {
-    if (!empty($r["ReceiptDate"]) && $r["ReceiptDate"] < $today) {
-        $past[] = $r;
+    $status = strtolower($r["Status"] ?? "pending");
+    if ($status === "approved" || $status === "denied") {
+        $resolved[] = $r;
     } else {
-        $current[] = $r;
+        $pending[] = $r;
     }
 }
 ?>
@@ -40,11 +41,10 @@ foreach ($receipts as $r) {
 <ul>
 <li><a href="receipt.php">Submit Reimbursement</a></li>
 <li><a href="Trip_Home.php">Back to Travel</a></li>
-
 </ul>
 </nav>
 <div class="container">
-<div class="section-title">Current Reimbursements</div>
+<div class="section-title">Pending Reimbursements</div>
 <table>
 <thead>
 <tr>
@@ -56,10 +56,10 @@ foreach ($receipts as $r) {
 </tr>
 </thead>
 <tbody>
-<?php if (empty($current)): ?>
-<tr><td colspan="5" class="empty">No current reimbursements</td></tr>
+<?php if (empty($pending)): ?>
+<tr><td colspan="5" class="empty">No pending reimbursements</td></tr>
 <?php else: ?>
-<?php foreach ($current as $r): ?>
+<?php foreach ($pending as $r): ?>
 <tr>
 <td><?= htmlspecialchars($r["TripID"]) ?></td>
 <td>$<?= htmlspecialchars(number_format($r["Amount"], 2)) ?></td>
@@ -71,7 +71,7 @@ foreach ($receipts as $r) {
 <?php endif; ?>
 </tbody>
 </table>
-<div class="section-title">Past Reimbursements</div>
+<div class="section-title">Approved/Denied Reimbursements</div>
 <table>
 <thead>
 <tr>
@@ -83,16 +83,16 @@ foreach ($receipts as $r) {
 </tr>
 </thead>
 <tbody>
-<?php if (empty($past)): ?>
-<tr><td colspan="5" class="empty">No past reimbursements</td></tr>
+<?php if (empty($resolved)): ?>
+<tr><td colspan="5" class="empty">No approved/denied reimbursements</td></tr>
 <?php else: ?>
-<?php foreach ($past as $r): ?>
+<?php foreach ($resolved as $r): ?>
 <tr>
 <td><?= htmlspecialchars($r["TripID"]) ?></td>
 <td>$<?= htmlspecialchars(number_format($r["Amount"], 2)) ?></td>
 <td><?= htmlspecialchars($r["BankInfo"]) ?></td>
 <td><?= htmlspecialchars($r["ReceiptDate"]) ?></td>
-<td><span class="pill pending">Pending</span></td>
+<td><span class="pill <?= strtolower($r["Status"]) ?>"><?= htmlspecialchars($r["Status"]) ?></span></td>
 </tr>
 <?php endforeach; ?>
 <?php endif; ?>
