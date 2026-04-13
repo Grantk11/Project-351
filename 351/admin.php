@@ -29,7 +29,7 @@ if (isset($_GET["trip_action"], $_GET["trip_id"])) {
     $tid    = (int) $_GET["trip_id"];
     $action = $_GET["trip_action"];
     if (in_array($action, ["Approved", "Denied"], true)) {
-        $pdo->prepare("UPDATE trips SET Status = ? WHERE TripID = ?")
+        $pdo->prepare("UPDATE Trip SET Status = ? WHERE TripID = ?")
             ->execute([$action, $tid]);
         $message = "success:Trip marked as " . $action . ".";
     }
@@ -45,7 +45,7 @@ $users = $pdo->query(
 
 $trips = $pdo->query(
     "SELECT t.*, u.first_name, u.last_name, u.email
-     FROM trips t
+     FROM Trip t
      JOIN users u ON t.user_id = u.id
      ORDER BY t.TripID DESC"
 )->fetchAll(PDO::FETCH_ASSOC);
@@ -200,8 +200,8 @@ if ($message) {
                         <td><?php echo htmlspecialchars($t["first_name"] . " " . $t["last_name"]); ?><br>
                             <small style="color:#6b7280"><?php echo htmlspecialchars($t["email"]); ?></small>
                         </td>
-                        <td><?php echo htmlspecialchars($t["EmployeeID"]); ?></td>
-                        <td><?php echo htmlspecialchars($t["EmployeeDestination"]); ?></td>
+                        <td><?php echo htmlspecialchars($t["user_id"]); ?></td>
+                        <td><?php echo htmlspecialchars($t["Destination"]); ?></td>
                         <td><?php echo htmlspecialchars($t["ArrivalDate"]); ?></td>
                         <td><?php echo htmlspecialchars($t["ReturnDate"]); ?></td>
                         <td>
