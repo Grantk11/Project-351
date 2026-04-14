@@ -41,14 +41,13 @@ foreach ($trips as $t) {
 <nav>
 <ul>
 <li><a href="trip.php">Create New Trip</a></li>
-<li><a href="../../logout.php">Logout</a></li>
 </ul>
 </nav>
 <div class="container">
 <?php if ($created): ?>
 <div class="success">Trip successfully created!</div>
 <?php endif; ?>
-<div class="section-title">Upcoming Trips</div>
+<div class="section-title">PendingTrips</div>
 <table>
 <thead>
 <tr>
@@ -61,7 +60,7 @@ foreach ($trips as $t) {
 </thead>
 <tbody>
 <?php if (empty($upcoming)): ?>
-<tr><td colspan="5" class="empty">No upcoming trips</td></tr>
+<tr><td colspan="5" class="empty">No pending trips</td></tr>
 <?php else: ?>
 <?php foreach ($upcoming as $trip): ?>
 <tr>
@@ -70,12 +69,11 @@ foreach ($trips as $t) {
 <td><?= htmlspecialchars($trip["ArrivalDate"]) ?></td>
 <td><?= htmlspecialchars($trip["ReturnDate"]) ?></td>
 <td><span class="pill <?= strtolower($trip["Status"]) ?>"><?= htmlspecialchars($trip["Status"]) ?></span></td>
-</tr>
 <?php endforeach; ?>
 <?php endif; ?>
 </tbody>
 </table>
-<div class="section-title">Past Trips</div>
+<div class="section-title">Approved/Denied Trips</div>
 <table>
 <thead>
 <tr>
@@ -88,7 +86,7 @@ foreach ($trips as $t) {
 </thead>
 <tbody>
 <?php if (empty($past)): ?>
-<tr><td colspan="5" class="empty">No past trips</td></tr>
+<tr><td colspan="5" class="empty">No approved/denied trips</td></tr>
 <?php else: ?>
 <?php foreach ($past as $trip): ?>
 <tr>
@@ -97,6 +95,7 @@ foreach ($trips as $t) {
 <td><?= htmlspecialchars($trip["ArrivalDate"]) ?></td>
 <td><?= htmlspecialchars($trip["ReturnDate"]) ?></td>
 <td><span class="pill <?= strtolower($trip["Status"]) ?>"><?= htmlspecialchars($trip["Status"]) ?></span></td>
+
 </tr>
 <?php endforeach; ?>
 <?php endif; ?>
