@@ -35,6 +35,17 @@ if (isset($_GET["trip_action"], $_GET["trip_id"])) {
     }
 }
 
+// Approve or deny a receipt
+if (isset($_GET["receipt_action"], $_GET["receipt_id"])) {
+    $rid    = (int) $_GET["receipt_id"];
+    $action = $_GET["receipt_action"];
+    if (in_array($action, ["Approved", "Denied"], true)) {
+        $pdo->prepare("UPDATE Receipt SET Status = ? WHERE ReceiptID = ?")
+            ->execute([$action, $rid]);
+        $message = "success:Reimbursement marked as " . $action . ".";
+    }
+}
+
 // ── Fetch data ───────────────────────────────────────────────────────────────
 
 $users = $pdo->query(
