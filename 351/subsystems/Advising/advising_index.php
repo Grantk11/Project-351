@@ -4,7 +4,16 @@ require_once __DIR__ . '/../../includes/auth_check.php';
 require_once __DIR__ . '/../../includes/dbconnect.php';
 require_login();
 
-$role = $_SESSION['role'] ?? '';
+$role    = $_SESSION['role'] ?? '';
+$user_id = (int)($_SESSION['user_id'] ?? 0);
+
+// Unread message count for students (used in Inbox card)
+$unread = 0;
+if ($role === 'student') {
+    $u = $pdo->prepare("SELECT COUNT(*) FROM messages WHERE recipient_id = ? AND is_read = 0");
+    $u->execute([$user_id]);
+    $unread = (int)$u->fetchColumn();
+}
 
 // Fetch student list for professor note-lookup dropdown
 $students = [];
@@ -147,6 +156,14 @@ if ($role === 'professor') {
                 <a href="faculty_advising.php" class="btn-card">Manage Slots</a>
             </div>
 
+            <!-- ── Messaging ── -->
+            <div class="adv-card">
+                <div class="card-icon">&#9993;&#65039;</div>
+                <h3>Messaging</h3>
+                <p>Manage your advisee list and send messages to individuals or your entire advisee group.</p>
+                <a href="messaging_index.php" class="btn-card">Open Messaging</a>
+            </div>
+
             <!-- ── Student Notes ── -->
             <div class="adv-card">
                 <div class="card-icon">&#128221;</div>
@@ -177,6 +194,29 @@ if ($role === 'professor') {
                 <h3>Advising Sign-Up</h3>
                 <p>Browse available advising slots and book an appointment with a professor.</p>
                 <a href="student_advising.php" class="btn-card">View Slots</a>
+            </div>
+
+            <!-- ── My Notes ── -->
+            <div class="adv-card">
+                <div class="card-icon">&#128221;</div>
+                <h3>My Advising Notes</h3>
+                <p>View notes your professor has recorded from your advising sessions.</p>
+                <a href="student_notes.php" class="btn-card">View Notes</a>
+            </div>
+
+            <!-- ── Inbox ── -->
+            <div class="adv-card">
+                <div class="card-icon">&#128140;</div>
+                <h3>
+                    Inbox
+                    <?php if ($unread > 0): ?>
+                        <span style="background:#c0392b;color:#fff;border-radius:10px;padding:.1rem .5rem;font-size:.75rem;font-weight:700;margin-left:.3rem;">
+                            <?= $unread ?>
+                        </span>
+                    <?php endif; ?>
+                </h3>
+                <p>View messages sent to you by your professor.</p>
+                <a href="inbox.php" class="btn-card">Open Inbox</a>
             </div>
 
         <?php else: ?>
