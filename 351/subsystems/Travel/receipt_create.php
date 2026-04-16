@@ -36,156 +36,66 @@ foreach ($receipts as $r) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reimbursement Requests</title>
     <link rel="stylesheet" href="../../351.css">
+    <style>
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        }
+
+        .section-title {
+            margin: 30px 0 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #64748b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        thead th {
+            background: #0f172a;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .empty {
+            text-align: center;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .pill.pending  { background: #fef9c3; color: #854d0e; }
+        .pill.approved { background: #dcfce7; color: #166534; }
+        .pill.denied   { background: #fee2e2; color: #991b1b; }
+    </style>
 </head>
-<style>
-    
-:root {
-    --card:#ffffff;
-    --text:#0f172a;
-    --muted:#64748b;
-    --border:#e5e7eb;
-    --nav:#0b1220;
-    --blue:#2563eb;
-    --blue2:#1d4ed8;
-    --shadow:0 10px 30px rgba(0,0,0,.08);
-    --radius:14px;
-}
 
-body {
-    margin:0;
-    font-family: Arial, sans-serif;
-    color:var(--text);
-    background:linear-gradient(180deg,#f6f7fb,#ffffff);
-}
-
-nav {
-    background:var(--nav);
-    padding:16px;
-    text-align:center;
-    font-size:20px;
-    font-weight:bold;
-    color:white;
-}
-
-.container {
-    max-width:750px;
-    margin:50px auto;
-    background:var(--card);
-    padding:30px;
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-}
-
-h1 {
-    text-align:center;
-    margin-bottom:25px;
-}
-
-label {
-    display:block;
-    margin-bottom:6px;
-    font-weight:bold;
-}
-
-input {
-    width:100%;
-    padding:10px;
-    margin-bottom:16px;
-    border:1px solid var(--border);
-    border-radius:8px;
-    background:#ffffff !important;
-    font-size:14px;
-    height:auto !important;
-    box-sizing:border-box;
-}
-
-input[type="number"] {
-    appearance:textfield;
-}
-
-input[type="date"] {
-    background:#ffffff;
-}
-
-button {
-    width:100%;
-    padding:12px;
-    background:var(--blue);
-    color:white;
-    border:none;
-    border-radius:10px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-button:hover {
-    background:var(--blue2);
-}
-
-.error {
-    background:#fee2e2;
-    border:1px solid #ef4444;
-    color:#991b1b;
-    padding:12px;
-    border-radius:8px;
-    margin-bottom:20px;
-    text-align:center;
-}
-
-.section-title {
-    margin:30px 0 15px;
-    font-size:18px;
-    font-weight:bold;
-    color:var(--muted);
-}
-
-table {
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
-}
-
-thead th {
-    background:#0f172a;
-    color:white;
-    padding:12px;
-    text-align:left;
-}
-
-tbody td {
-    padding:12px;
-    border-bottom:1px solid var(--border);
-}
-
-tbody tr:hover {
-    background:#f9fafb;
-}
-
-.empty {
-    text-align:center;
-    color:var(--muted);
-    font-style:italic;
-}
-
-.btn-row {
-    display:flex;
-    justify-content:center;
-    margin-top:20px;
-}
-
-.btn {
-    background:#6b7280;
-    color:white;
-    padding:10px 16px;
-    border-radius:10px;
-    text-decoration:none;
-    font-weight:bold;
-}
-
-.btn:hover {
-    background:#4b5563;
-}
-</style>
 <body>
     <div id="wrapper">
 
@@ -219,7 +129,6 @@ tbody tr:hover {
                         <th>Status</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     <?php if (empty($pending)): ?>
                         <tr>
@@ -237,7 +146,7 @@ tbody tr:hover {
                                     <?php $status = strtolower($r["Status"] ?? "pending"); ?>
                                     <span class="pill <?= $status ?>"><?= ucfirst($status) ?></span>
                                 </td>
-                            </tr>                        
+                            </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
@@ -256,7 +165,6 @@ tbody tr:hover {
                         <th>Status</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     <?php if (empty($resolved)): ?>
                         <tr>
