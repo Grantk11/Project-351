@@ -14,13 +14,12 @@ $stmt = $pdo->prepare("SELECT * FROM Trip WHERE user_id = ? ORDER BY ArrivalDate
 $stmt->execute([$user_id]);
 $trips = $stmt->fetchAll();
 
-$today = date("Y-m-d");
+$today    = date("Y-m-d");
 $upcoming = [];
-$past = [];
+$past     = [];
 
 foreach ($trips as $t) {
     $endDate = !empty($t["ReturnDate"]) ? $t["ReturnDate"] : $t["ArrivalDate"];
-    
     if (!empty($endDate) && $endDate < $today) {
         $past[] = $t;
     } else {
@@ -39,99 +38,93 @@ foreach ($trips as $t) {
 </head>
 
 <body>
-    <div id="wrapper">
-        <header>
-            <h1>My Trips</h1>
-        </header>
+<div id="wrapper">
 
-        <div class="site-logo">
-            <img src="../../ban.png" alt="CNU Banner">
-        </div>
+    <header>
+        <h1>My Trips</h1>
+    </header>
 
-        <nav>
-            <ul>
-                <li><a href="trip.php">Create New Trip</a></li>
-                <li><a href="trip_Home.php">Back to Trip Home</a></li>
-            </ul>
-        </nav>
-
-        <div class="container">
-            <?php if ($created): ?>
-                <div class="success">Trip successfully created!</div>
-            <?php endif; ?>
-
-            <div class="section-title">PendingTrips</div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Trip ID</th>
-                        <th>Destination</th>
-                        <th>Arrival</th>
-                        <th>Return</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php if (empty($upcoming)): ?>
-                        <tr>
-                            <td colspan="5" class="empty">No pending trips</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($upcoming as $trip): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($trip["TripID"]) ?></td>
-                                <td><?= htmlspecialchars($trip["Destination"]) ?></td>
-                                <td><?= htmlspecialchars($trip["ArrivalDate"]) ?></td>
-                                <td><?= htmlspecialchars($trip["ReturnDate"]) ?></td>
-                                <td>
-                                    <span class="pill <?= strtolower($trip["Status"]) ?>">
-                                        <?= htmlspecialchars($trip["Status"]) ?>
-                                    </span>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-
-            <div class="section-title">Approved/Denied Trips</div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Trip ID</th>
-                        <th>Destination</th>
-                        <th>Arrival</th>
-                        <th>Return</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php if (empty($past)): ?>
-                        <tr>
-                            <td colspan="5" class="empty">No approved/denied trips</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($past as $trip): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($trip["TripID"]) ?></td>
-                                <td><?= htmlspecialchars($trip["Destination"]) ?></td>
-                                <td><?= htmlspecialchars($trip["ArrivalDate"]) ?></td>
-                                <td><?= htmlspecialchars($trip["ReturnDate"]) ?></td>
-                                <td>
-                                    <span class="pill <?= strtolower($trip["Status"]) ?>">
-                                        <?= htmlspecialchars($trip["Status"]) ?>
-                                    </span>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+    <div class="site-logo">
+        <img src="../../ban.png" alt="CNU Banner">
     </div>
+
+    <nav>
+        <ul>
+            <li><a href="trip.php">Create New Trip</a></li>
+            <li><a href="Trip_Home.php">Back to Trip Home</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <?php if ($created): ?>
+            <div class="success">Trip successfully created!</div>
+        <?php endif; ?>
+
+        <div class="section-title">Pending Trips</div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Trip ID</th>
+                    <th>Destination</th>
+                    <th>Arrival</th>
+                    <th>Return</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($upcoming)): ?>
+                    <tr><td colspan="5" class="empty">No pending trips</td></tr>
+                <?php else: ?>
+                    <?php foreach ($upcoming as $trip): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($trip["TripID"]) ?></td>
+                            <td><?= htmlspecialchars($trip["Destination"]) ?></td>
+                            <td><?= htmlspecialchars($trip["ArrivalDate"]) ?></td>
+                            <td><?= htmlspecialchars($trip["ReturnDate"]) ?></td>
+                            <td>
+                                <?php $status = strtolower($trip["Status"] ?? "pending"); ?>
+                                <span class="pill <?= $status ?>"><?= ucfirst($status) ?></span>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+
+        <div class="section-title">Approved / Denied Trips</div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Trip ID</th>
+                    <th>Destination</th>
+                    <th>Arrival</th>
+                    <th>Return</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($past)): ?>
+                    <tr><td colspan="5" class="empty">No approved/denied trips</td></tr>
+                <?php else: ?>
+                    <?php foreach ($past as $trip): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($trip["TripID"]) ?></td>
+                            <td><?= htmlspecialchars($trip["Destination"]) ?></td>
+                            <td><?= htmlspecialchars($trip["ArrivalDate"]) ?></td>
+                            <td><?= htmlspecialchars($trip["ReturnDate"]) ?></td>
+                            <td>
+                                <?php $status = strtolower($trip["Status"] ?? "pending"); ?>
+                                <span class="pill <?= $status ?>"><?= ucfirst($status) ?></span>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
+</div>
 </body>
 </html>
