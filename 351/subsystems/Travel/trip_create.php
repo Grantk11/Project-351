@@ -10,7 +10,7 @@ if (!isset($_SESSION["user_id"])) {
 $user_id = $_SESSION["user_id"];
 $created = $_GET['created'] ?? null;
 
-$stmt = $pdo->prepare("SELECT * FROM trip WHERE user_id = ? ORDER BY ArrivalDate ASC");
+$stmt = $pdo->prepare("SELECT * FROM Trip WHERE user_id = ? ORDER BY ArrivalDate ASC");
 $stmt->execute([$user_id]);
 $trips = $stmt->fetchAll();
 
