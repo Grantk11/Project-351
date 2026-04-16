@@ -40,7 +40,6 @@ if (!isset($_SESSION["user_id"])) {
         <ul>
             <li><a href="../../dashboard.php">Back to Portal</a></li>
             <li><a href="../../logout.php">Logout</a></li>
-            <li><a href="admin.php">Travel Admin Login</a></li>
         </ul>
     </nav>
 
