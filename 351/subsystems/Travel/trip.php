@@ -1,6 +1,6 @@
 <?php
 session_start();
-require "dbconnect.php";
+require "../../includes/dbconnect.php";
 
 $error = "";
 $success = "";
