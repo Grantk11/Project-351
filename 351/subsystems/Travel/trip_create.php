@@ -35,7 +35,7 @@ foreach ($trips as $t) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Trips</title>
-    <link rel="stylesheet" href="trip_create.css">
+    <link rel="stylesheet" href="../../351.css">
 </head>
 
 <body>
