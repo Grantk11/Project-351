@@ -2,7 +2,7 @@
 session_start();
 
 // Include database connection
-$db_path = "dbconnect.php";
+$db_path = "includes/dbconnect.php";
 if (!file_exists($db_path)) {
     die("dbconnect.php not found at: " . $db_path);
 }
