@@ -62,7 +62,7 @@ $role = $_SESSION["role"] ?? '';
                 <area alt="Alumni" href="subsystems/Alumni/alumni_index.php"
                       coords="366,445,416,515,566,298,497,253,429,352,406,392" shape="poly">
  
-                <area alt="Travel" href="subsystems/Travel/trip_home.php"
+                <area alt="Travel" href="subsystems/Travel/Trip_Home.php"
                       coords="482,540,709,199,758,228,739,320,771,351,684,516,616,529,541,576"
                       shape="poly">
  
@@ -77,10 +77,10 @@ $role = $_SESSION["role"] ?? '';
             <li><a href="subsystems/Advising/advising_index.php">Course Advising System</a></li>
             <?php endif; ?>
  
-            <li><a href="subsystems/alumni/alumni_index.php">Alumni Connection System</a></li>
+            <li><a href="subsystems/Alumni/alumni_index.php">Alumni Connection System</a></li>
           
  
-            <li><a href="subsystems/travel/trip_home.php">Conference Travel System</a></li>
+            <li><a href="subsystems/Travel/Trip_Home.php">Conference Travel System</a></li>
 			
 			<?php if (has_role(['admin'])): ?>
 			<li><a href="admin.php">Admin Panel</a></li>
