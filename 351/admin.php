@@ -1,12 +1,18 @@
 <?php
 session_start();
-$auth_path = __DIR__ . "/includes/auth_check.php";
-if (!file_exists($auth_path)) {
-    die("auth_check.php not found at: " . $auth_path);
+
+// Include database connection
+$db_path = "dbconnect.php";
+if (!file_exists($db_path)) {
+    die("dbconnect.php not found at: " . $db_path);
 }
-require_once $auth_path;
-require_once __DIR__ . "/includes/dbconnect.php";
-require_admin();
+require_once $db_path;
+
+// Ensure only admins can access
+if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {
+    header("Location: /dashboard.php?error=access_denied");
+    exit;
+}
 
 $message = "";
 
@@ -15,7 +21,6 @@ $message = "";
 // Delete a user
 if (isset($_GET["delete_user"])) {
     $uid = (int) $_GET["delete_user"];
-    // Prevent admin from deleting themselves
     if ($uid === (int) $_SESSION["user_id"]) {
         $message = "error:You cannot delete your own account.";
     } else {
@@ -46,6 +51,8 @@ if (isset($_GET["receipt_action"], $_GET["receipt_id"])) {
     }
 }
 
+
+
 // ── Fetch data ───────────────────────────────────────────────────────────────
 
 $users = $pdo->query(
@@ -56,9 +63,17 @@ $users = $pdo->query(
 
 $trips = $pdo->query(
     "SELECT t.*, u.first_name, u.last_name, u.email
-     FROM Trip t
+     FROM trip t
      JOIN users u ON t.user_id = u.id
      ORDER BY t.TripID DESC"
+)->fetchAll(PDO::FETCH_ASSOC);
+
+$receipts = $pdo->query(
+    "SELECT r.*, t.user_id, u.first_name, u.last_name, u.email
+     FROM Receipt r
+     LEFT JOIN Trip t ON r.TripID = t.TripID
+     LEFT JOIN users u ON t.user_id = u.id
+     ORDER BY r.ReceiptID DESC"
 )->fetchAll(PDO::FETCH_ASSOC);
 
 // Split message type
@@ -193,12 +208,10 @@ if ($message) {
                 <tr>
                     <th>Trip ID</th>
                     <th>Submitted By</th>
-                    <th>Employee ID</th>
                     <th>Destination</th>
-                    <th>Arrival</th>
-                    <th>Return</th>
+                    <th>Departure Date</th>
+                    <th>Return Data</th>
                     <th>Status</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -211,7 +224,6 @@ if ($message) {
                         <td><?php echo htmlspecialchars($t["first_name"] . " " . $t["last_name"]); ?><br>
                             <small style="color:#6b7280"><?php echo htmlspecialchars($t["email"]); ?></small>
                         </td>
-                        <td><?php echo htmlspecialchars($t["user_id"]); ?></td>
                         <td><?php echo htmlspecialchars($t["Destination"]); ?></td>
                         <td><?php echo htmlspecialchars($t["ArrivalDate"]); ?></td>
                         <td><?php echo htmlspecialchars($t["ReturnDate"]); ?></td>
@@ -240,5 +252,73 @@ if ($message) {
     </div>
 </div>
 
-</body>
-</html>
+<!-- ── RECEIPTS ── -->
+<div class="section">
+    <div class="section-heading">Reimbursement Requests (<?php echo count($receipts); ?>)</div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Receipt ID</th>
+                    <th>Submitted By</th>
+                    <th>Trip ID</th>
+                    <th>Amount</th>
+                    <th>Bank Info</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php if (empty($receipts)): ?>
+                    <tr class="empty">
+                        <td colspan="7">No reimbursement requests found</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($receipts as $r): ?>
+                        <?php $status = strtolower($r["Status"] ?? "pending"); ?>
+                        <tr>
+                            <td><?php echo $r["ReceiptID"]; ?></td>
+
+                            <td>
+                                <?php echo htmlspecialchars($r["first_name"] . " " . $r["last_name"]); ?><br>
+                                <small style="color:#6b7280">
+                                    <?php echo htmlspecialchars($r["email"]); ?>
+                                </small>
+                            </td>
+
+                            <td><?php echo htmlspecialchars($r["TripID"]); ?></td>
+
+                            <td>$<?php echo number_format($r["Amount"], 2); ?></td>
+
+                            <td><?php echo htmlspecialchars($r["BankInfo"]); ?></td>
+
+                            <td><?php echo htmlspecialchars($r["ReceiptDate"]); ?></td>
+
+                            <td>
+                                <span class="badge badge-<?php echo $status; ?>">
+                                    <?php echo ucfirst($status); ?>
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="btn-gap">
+                                    <?php if ($status !== "approved"): ?>
+                                        <a href="admin.php?receipt_action=Approved&receipt_id=<?php echo $r["ReceiptID"]; ?>"
+                                           class="btn btn-green">Approve</a>
+                                    <?php endif; ?>
+
+                                    <?php if ($status !== "denied"): ?>
+                                        <a href="admin.php?receipt_action=Denied&receipt_id=<?php echo $r["ReceiptID"]; ?>"
+                                           class="btn btn-gray">Deny</a>
+                                    <?php endif; ?>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
