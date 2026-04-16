@@ -5,7 +5,6 @@ require "dbconnect.php";
 $error = "";
 $success = "";
 
-
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit;
@@ -34,7 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         );
         $stmt->execute([$user_id, $destination, $arrivalDate, $returnDate, 'Pending']);
 
-        
         header("Location: trip_create.php");
         exit;
     }
@@ -43,50 +41,67 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Create Trip</title>
-<link rel="stylesheet" href="trip.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Trip</title>
+    <link rel="stylesheet" href="trip.css">
 </head>
+
 <body>
-<div id="wrapper">
+    <div id="wrapper">
 
-<div class="site-logo">
-<img src="../../ban.png" alt="CNU Banner">
-</div>
+        <div class="site-logo">
+            <img src="../../ban.png" alt="CNU Banner">
+        </div>
 
-<nav>
-<ul>
-<li><a href="Trip_Home.php">Back to Travel</a></li>
-<li><a href="../../logout.php">Logout</a></li>
-</ul>
-</nav>
+        <nav>
+            <ul>
+                <li><a href="Trip_Home.php">Back to Travel</a></li>
+            </ul>
+        </nav>
 
-<div class="container">
-<h1>Create a Trip</h1>
+        <div class="container">
+            <h1>Create a Trip</h1>
 
-<?php if ($error): ?>
-<div class="error"><?= htmlspecialchars($error) ?></div>
-<?php endif; ?>
+            <?php if ($error): ?>
+                <div class="error"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
 
-<form method="POST" action="">
-    <label for="Destination">Destination:</label><br>
-    <input type="text" id="Destination" name="Destination" maxlength="100" required
-           value="<?= htmlspecialchars($_POST['Destination'] ?? '') ?>"><br><br>
+            <form method="POST" action="">
+                <label for="Destination">Destination:</label><br>
+                <input 
+                    type="text" 
+                    id="Destination" 
+                    name="Destination" 
+                    maxlength="100" 
+                    required
+                    value="<?= htmlspecialchars($_POST['Destination'] ?? '') ?>"
+                ><br><br>
 
-    <label for="ArrivalDate">Arrival Date:</label><br>
-    <input type="date" id="ArrivalDate" name="ArrivalDate" required
-           value="<?= htmlspecialchars($_POST['ArrivalDate'] ?? '') ?>"><br><br>
+                <label for="ArrivalDate">Arrival Date:</label><br>
+                <input 
+                    type="date" 
+                    id="ArrivalDate" 
+                    name="ArrivalDate" 
+                    required
+                    value="<?= htmlspecialchars($_POST['ArrivalDate'] ?? '') ?>"
+                ><br><br>
 
-    <label for="ReturnDate">Return Date:</label><br>
-    <input type="date" id="ReturnDate" name="ReturnDate" required
-           value="<?= htmlspecialchars($_POST['ReturnDate'] ?? '') ?>"><br><br>
+                <label for="ReturnDate">Return Date:</label><br>
+                <input 
+                    type="date" 
+                    id="ReturnDate" 
+                    name="ReturnDate" 
+                    required
+                    value="<?= htmlspecialchars($_POST['ReturnDate'] ?? '') ?>"
+                ><br><br>
 
-    <button type="submit">Create Trip</button>
-</form>
+                <button type="submit">Create Trip</button>
+            </form>
 
-</div>
-</div>
+        </div>
+    </div>
 </body>
 </html>
