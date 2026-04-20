@@ -33,7 +33,7 @@ if (isset($_SESSION["user_id"])) {
             </ul>
         </nav>
 
-        <main>
+        <main><br>
             <h2>Welcome to our website</h2><br>
             <p><b>You must log in to access the following subsystems</b></p>
             
@@ -42,9 +42,10 @@ if (isset($_SESSION["user_id"])) {
                 <li>Course Advising System</li>
                 <li>Travel Reimbursement System</li>
             </ul>
-<?php
-           
-                ?>
+<br><br>
+<h2>About the Project</h2>
+<p>Our system, built collaboratively for CPSC 351, is designed to support the Students, Faculty, and Alumni of Christopher Newport University through 3 main subsystems. In the Spring 2026 semester our team built and deployed our Alumni Connection, Course Advising, and Travel Reimbursement systems using technologies such as AWS for web-hosting as well as HTML, CSS, and PHP for the web application itself.
+<br>Created with assistance from generative AI tools like Gemini and Claude*
 </div>
         </main>
 

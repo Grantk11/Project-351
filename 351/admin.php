@@ -63,7 +63,7 @@ $users = $pdo->query(
 
 $trips = $pdo->query(
     "SELECT t.*, u.first_name, u.last_name, u.email
-     FROM trip t
+     FROM Trip t
      JOIN users u ON t.user_id = u.id
      ORDER BY t.TripID DESC"
 )->fetchAll(PDO::FETCH_ASSOC);
@@ -81,6 +81,81 @@ $msg_type = "";
 $msg_text = "";
 if ($message) {
     [$msg_type, $msg_text] = explode(":", $message, 2);
+}
+
+// Advising slots
+$slots = $pdo->query(
+    "SELECT s.*,
+            f.first_name AS faculty_first, f.last_name AS faculty_last,
+            st.first_name AS student_first, st.last_name AS student_last, st.email AS student_email
+     FROM advising_slots s
+     JOIN users f ON s.faculty_id = f.id
+     LEFT JOIN users st ON s.student_id = st.id
+     ORDER BY s.slot_date DESC, s.slot_time ASC"
+)->fetchAll(PDO::FETCH_ASSOC);
+
+// Alumni events + RSVPs
+$events = $pdo->query(
+    "SELECT e.*, COUNT(r.id) AS rsvp_count
+     FROM events e
+     LEFT JOIN event_rsvps r ON e.id = r.event_id
+     GROUP BY e.id
+     ORDER BY e.event_date DESC"
+)->fetchAll(PDO::FETCH_ASSOC);
+
+$event_rsvps = $pdo->query(
+    "SELECT r.event_id, u.first_name, u.last_name, u.email, r.created_at
+     FROM event_rsvps r
+     JOIN users u ON r.user_id = u.id
+     ORDER BY r.event_id, r.created_at DESC"
+)->fetchAll(PDO::FETCH_ASSOC);
+
+// Group RSVPs by event_id
+$rsvps_by_event = [];
+foreach ($event_rsvps as $rsvp) {
+    $rsvps_by_event[$rsvp['event_id']][] = $rsvp;
+}
+
+// Jobs + applicants
+$jobs = $pdo->query(
+    "SELECT j.*, COUNT(a.id) AS applicant_count
+     FROM jobs j
+     LEFT JOIN job_applications a ON j.id = a.job_id
+     GROUP BY j.id
+     ORDER BY j.created_at DESC"
+)->fetchAll(PDO::FETCH_ASSOC);
+
+$job_applications = $pdo->query(
+    "SELECT a.job_id, u.first_name, u.last_name, u.email, a.created_at
+     FROM job_applications a
+     JOIN users u ON a.user_id = u.id
+     ORDER BY a.job_id, a.created_at DESC"
+)->fetchAll(PDO::FETCH_ASSOC);
+
+$apps_by_job = [];
+foreach ($job_applications as $app) {
+    $apps_by_job[$app['job_id']][] = $app;
+}
+
+// Mentors + requests
+$mentors = $pdo->query(
+    "SELECT m.*, COUNT(r.id) AS request_count
+     FROM mentors m
+     LEFT JOIN mentor_requests r ON m.id = r.mentor_id
+     GROUP BY m.id
+     ORDER BY m.created_at DESC"
+)->fetchAll(PDO::FETCH_ASSOC);
+
+$mentor_requests = $pdo->query(
+    "SELECT r.mentor_id, u.first_name, u.last_name, u.email, r.created_at
+     FROM mentor_requests r
+     JOIN users u ON r.user_id = u.id
+     ORDER BY r.mentor_id, r.created_at DESC"
+)->fetchAll(PDO::FETCH_ASSOC);
+
+$requests_by_mentor = [];
+foreach ($mentor_requests as $req) {
+    $requests_by_mentor[$req['mentor_id']][] = $req;
 }
 ?>
 <!DOCTYPE html>
@@ -199,6 +274,182 @@ if ($message) {
     </div>
 </div>
 
+<!-- ── ADVISING SLOTS ── -->
+<div class="section">
+    <div class="section-heading">Advising Appointments (<?php echo count($slots); ?>)</div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Slot ID</th>
+                    <th>Faculty</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Booked By</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($slots)): ?>
+                    <tr class="empty"><td colspan="7">No advising slots found</td></tr>
+                <?php else: foreach ($slots as $sl): ?>
+                <tr>
+                    <td><?php echo $sl['slot_id']; ?></td>
+                    <td><?php echo htmlspecialchars($sl['faculty_first'] . ' ' . $sl['faculty_last']); ?></td>
+                    <td><?php echo htmlspecialchars($sl['slot_date']); ?></td>
+                    <td><?php echo htmlspecialchars($sl['slot_time']); ?></td>
+                    <td><?php echo htmlspecialchars($sl['location']); ?></td>
+                    <td>
+                        <span class="badge <?php echo $sl['is_booked'] ? 'badge-denied' : 'badge-approved'; ?>">
+                            <?php echo $sl['is_booked'] ? 'Booked' : 'Available'; ?>
+                        </span>
+                    </td>
+                    <td>
+                        <?php if ($sl['is_booked'] && $sl['student_first']): ?>
+                            <?php echo htmlspecialchars($sl['student_first'] . ' ' . $sl['student_last']); ?><br>
+                            <small style="color:#6b7280"><?php echo htmlspecialchars($sl['student_email']); ?></small>
+                        <?php else: ?>
+                            <span style="color:#9ca3af">—</span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ── ALUMNI EVENTS ── -->
+<div class="section">
+    <div class="section-heading">Alumni Events (<?php echo count($events); ?>)</div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Posted By</th>
+                    <th>RSVPs</th>
+                    <th>Students</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($events)): ?>
+                    <tr class="empty"><td colspan="7">No events found</td></tr>
+                <?php else: foreach ($events as $ev): ?>
+                <tr>
+                    <td><?php echo $ev['id']; ?></td>
+                    <td><?php echo htmlspecialchars($ev['title']); ?></td>
+                    <td><?php echo htmlspecialchars($ev['event_date']); ?></td>
+                    <td><?php echo htmlspecialchars($ev['location']); ?></td>
+                    <td><?php echo htmlspecialchars($ev['posted_by']); ?></td>
+                    <td><span class="badge badge-pending"><?php echo $ev['rsvp_count']; ?></span></td>
+                    <td>
+                        <?php if (!empty($rsvps_by_event[$ev['id']])): ?>
+                            <?php foreach ($rsvps_by_event[$ev['id']] as $r): ?>
+                                <div><?php echo htmlspecialchars($r['first_name'] . ' ' . $r['last_name']); ?>
+                                <small style="color:#6b7280"> — <?php echo htmlspecialchars($r['email']); ?></small></div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <span style="color:#9ca3af">None</span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ── JOB OPPORTUNITIES ── -->
+<div class="section">
+    <div class="section-heading">Job Opportunities (<?php echo count($jobs); ?>)</div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Company</th>
+                    <th>Type</th>
+                    <th>Posted By</th>
+                    <th>Applicants</th>
+                    <th>Students</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($jobs)): ?>
+                    <tr class="empty"><td colspan="7">No jobs found</td></tr>
+                <?php else: foreach ($jobs as $j): ?>
+                <tr>
+                    <td><?php echo $j['id']; ?></td>
+                    <td><?php echo htmlspecialchars($j['title']); ?></td>
+                    <td><?php echo htmlspecialchars($j['company']); ?></td>
+                    <td><?php echo htmlspecialchars($j['job_type']); ?></td>
+                    <td><?php echo htmlspecialchars($j['posted_by']); ?></td>
+                    <td><span class="badge badge-pending"><?php echo $j['applicant_count']; ?></span></td>
+                    <td>
+                        <?php if (!empty($apps_by_job[$j['id']])): ?>
+                            <?php foreach ($apps_by_job[$j['id']] as $a): ?>
+                                <div><?php echo htmlspecialchars($a['first_name'] . ' ' . $a['last_name']); ?>
+                                <small style="color:#6b7280"> — <?php echo htmlspecialchars($a['email']); ?></small></div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <span style="color:#9ca3af">None</span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ── MENTORS ── -->
+<div class="section">
+    <div class="section-heading">Mentors (<?php echo count($mentors); ?>)</div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Industry</th>
+                    <th>Requests</th>
+                    <th>Students</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($mentors)): ?>
+                    <tr class="empty"><td colspan="6">No mentors found</td></tr>
+                <?php else: foreach ($mentors as $m): ?>
+                <tr>
+                    <td><?php echo $m['id']; ?></td>
+                    <td><?php echo htmlspecialchars($m['mentor_name']); ?></td>
+                    <td><?php echo htmlspecialchars($m['mentor_email']); ?></td>
+                    <td><?php echo htmlspecialchars($m['industry']); ?></td>
+                    <td><span class="badge badge-pending"><?php echo $m['request_count']; ?></span></td>
+                    <td>
+                        <?php if (!empty($requests_by_mentor[$m['id']])): ?>
+                            <?php foreach ($requests_by_mentor[$m['id']] as $rq): ?>
+                                <div><?php echo htmlspecialchars($rq['first_name'] . ' ' . $rq['last_name']); ?>
+                                <small style="color:#6b7280"> — <?php echo htmlspecialchars($rq['email']); ?></small></div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <span style="color:#9ca3af">None</span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <?php endforeach; endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <!-- ── TRIPS ── -->
 <div class="section">
     <div class="section-heading">Conference Travel Requests (<?php echo count($trips); ?>)</div>
@@ -211,7 +462,8 @@ if ($message) {
                     <th>Destination</th>
                     <th>Departure Date</th>
                     <th>Return Data</th>
-                    <th>Status</th>
+		    <th>Status</th>
+		    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
