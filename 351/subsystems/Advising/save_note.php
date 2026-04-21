@@ -11,7 +11,7 @@ $classes      = isset($_POST['classes'])      ? trim($_POST['classes'])         
 $student_name = isset($_POST['student_name']) ? trim($_POST['student_name'])        : '';
 
 $stmt = $pdo->prepare(
-    "INSERT INTO StudentNote (StudentID, ProfessorID, StudentExpectedGrad, StudentClasses, StudentName)
+    "INSERT INTO StudentNote (StudentID, ProfessorID, ExpectedGrad, Classes)
      VALUES (?, ?, ?, ?, ?)"
 );
 $stmt->execute([$student_id, $professor_id, $grad, $classes, $student_name]);
