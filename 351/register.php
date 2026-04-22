@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "includes/dbconnect.php";
+/*  Responsible Party: Colin */
  
 $error = "";
  
