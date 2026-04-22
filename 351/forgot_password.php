@@ -1,5 +1,7 @@
 <?php
-require "includes/db.php";
+/*  Responsible Party: Colin 
+THIS MODULE DOESN'T WORK  */
+require "includes/dbconnect.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = $_POST["email"];
