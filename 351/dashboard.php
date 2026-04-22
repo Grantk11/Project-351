@@ -1,4 +1,5 @@
 <?php
+/*  Responsible Party: Colin */
 session_start();
 require_once __DIR__ . "/includes/auth_check.php";
 require_login(); // Must be logged in; any role is fine for the dashboard itself
