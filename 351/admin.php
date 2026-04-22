@@ -1,6 +1,6 @@
-/*  Responsible Party: Colin */
 <?php
 session_start();
+/*  Responsible Party: Colin */
 
 // Include database connection
 $db_path = "includes/dbconnect.php";
