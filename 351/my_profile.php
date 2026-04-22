@@ -1,5 +1,6 @@
 <?php
 session_start();
+/*  Responsible Party: Colin */
 
 // Protect page (must be logged in)
 if (!isset($_SESSION['user_id'])) {
