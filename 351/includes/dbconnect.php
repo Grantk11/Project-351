@@ -1,4 +1,5 @@
 <?php
+/*  Responsible Party: Colin */
 $host = "localhost";
 $db   = "sec_system";
 $user = "admin_351";
