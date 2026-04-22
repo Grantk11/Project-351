@@ -1,5 +1,6 @@
 <?php
 session_start();
+/*  Responsible Party: Colin */
 
 if (isset($_SESSION["user_id"])) {
     header("Location: dashboard.php");
