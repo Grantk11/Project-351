@@ -1,5 +1,7 @@
 <?php
-require "includes/db.php";
+require "includes/dbconnect.php";
+/*  Responsible Party: Colin 
+THIS MODULE DOESN'T WORK  */
 
 $token = $_GET["token"] ?? null;
 
