@@ -1,4 +1,5 @@
 <?php
+/*  Responsible Party: Colin */
 /**
  * auth_check.php — Role-based access helper
  *
