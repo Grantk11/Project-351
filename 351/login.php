@@ -1,7 +1,7 @@
 <?php
 session_start();
 require __DIR__ . "/includes/dbconnect.php";
- 
+ /*  Responsible Party: Colin */
 $error = "";
  
 // Redirect already-logged-in users
