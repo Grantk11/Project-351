@@ -1,3 +1,4 @@
+/*  Responsible Party: Colin */
 <?php
 session_start();
 
