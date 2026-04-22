@@ -1,4 +1,5 @@
 <?php
+/*  Responsible Party: Grant */
 session_start();
 require "../../includes/dbconnect.php";
 
