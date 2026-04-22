@@ -1,4 +1,5 @@
 <?php
+/*  Responsible Party: Alijah */
 session_start();
 require "../../includes/dbconnect.php";
 
